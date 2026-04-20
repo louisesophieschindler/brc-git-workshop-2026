@@ -678,19 +678,6 @@ GitHub Desktop wraps this into a simple publish flow. The command line shows the
 
 ---
 
-## Demo 2 · The magic moment
-
-::: {.task-panel}
-<div class="task-item">Refresh the GitHub repository page</div>
-<div class="task-item">Files are listed, the README is rendered, and the commit history is visible</div>
-:::
-
-::: {.callout-tip}
-Your entire project is now on GitHub: files, history, and commit messages. Backed up, visible, and shareable.
-:::
-
----
-
 ## Demo 2 · One more commit → push → watch it arrive
 
 ::: {.task-panel}
