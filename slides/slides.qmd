@@ -1,0 +1,1215 @@
+---
+title: "Git for people who've been meaning to learn Git (but haven't yet)"
+subtitle: "NIHR Maudsley BRC<br>23 April 2026"
+author: "Dr Ewan Carr"
+institute: "King's College London"
+format:
+  revealjs:
+    theme: [default, custom.scss]
+    slide-number: true
+    progress: true
+    width: 1280
+    height: 720
+    margin: 0.1
+    transition: fade
+    transition-speed: fast
+    center: true
+    code-line-numbers: false
+    include-after-body:
+      text: |
+        <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          var t = document.querySelector('#title-slide h1.title');
+          if (t) {
+            t.innerHTML = t.innerHTML.replace(
+              ' (but haven\u2019t yet)',
+              '<br><span style="display:inline-block">(but haven\u2019t yet)</span>'
+            );
+          }
+        });
+        </script>
+---
+
+## Today {.today-slide}
+
+:::: {.columns}
+
+::: {.column style="width:50%; flex:0 0 50%;"}
+::: {.today-panel .today-panel-outcomes}
+::: {.today-panel-title}
+Three practical goals
+:::
+
+:::: {.today-goals}
+
+::: {.today-goal .today-goal-primary}
+::: {.today-goal-number}
+1
+:::
+::: {.today-goal-copy}
+**A clear mental model of Git**
+
+What it is, what a repository is, and how GitHub fits in.
+:::
+:::
+
+::: {.today-goal .today-goal-teal}
+::: {.today-goal-number}
+2
+:::
+::: {.today-goal-copy}
+**Your first repository**
+
+How to start tracking a project without making the workflow feel mysterious.
+:::
+:::
+
+::: {.today-goal .today-goal-accent}
+::: {.today-goal-number}
+3
+:::
+::: {.today-goal-copy}
+**A real commit pushed to GitHub**
+
+Enough confidence to try this on your own work.
+:::
+:::
+
+::::
+:::
+:::
+
+::: {.column style="width:50%; flex:0 0 50%;"}
+::: {.today-panel .today-panel-agenda}
+::: {.today-panel-title}
+Schedule
+:::
+
+::: {.today-session .today-session-hour1}
+::: {.today-session-time}
+14:00–15:00
+:::
+::: {.today-session-title}
+Concepts and demonstrations
+:::
+::: {.today-session-copy}
+Build the core ideas first, then watch the workflow happen end to end.
+:::
+:::
+
+::: {.today-session .today-session-hour2}
+::: {.today-session-time}
+15:00–16:00
+:::
+::: {.today-session-title}
+Practice
+:::
+::: {.today-session-copy}
+Make a repository, commit changes, and try the workflow yourself.
+:::
+:::
+
+:::
+:::
+
+::::
+
+---
+
+::: {.center style="text-align:center; margin: 0 auto; max-width: 70%;"}
+![](images/ballot-box.png){width="70%" fig-align="center"}
+
+[Your answers to the survey...]{.muted}
+:::
+
+---
+
+## The problem we're trying to solve {.sec background-color="#EA526F"}
+
+---
+
+## Problem 1: File names as versions
+
+:::: {.columns}
+
+::: {.column width="40%"}
+![](images/xkcd-documents.png){height="600px" fig-align="center"}
+:::
+
+::: {.column}
+`analysis_final_v4_Ewan.R`
+
+`data-cleaning-March-3rd_new.py`
+
+`data-cleaning-THIS_ONE_WORKS.R`
+
+- Doesn't scale well.
+- No record of what changed or why.
+- Hard to get back to the exact version you need.
+:::
+
+::::
+
+---
+
+## Problem 2: Collaborating on code
+
+:::: {.columns}
+
+::: {.column style="width:50%; flex:0 0 50%; display:flex; align-items:center; justify-content:center;"}
+![](images/email-script.png){height="600px" fig-align="center"}
+:::
+
+::: {.column style="width:50%; flex:0 0 50%; display:flex; flex-direction:column; justify-content:center;"}
+- You email a script to a colleague.
+- You both edit it separately.
+- Now there are two diverging versions.
+- No easy way to see the differences or combine the edits.
+:::
+
+::::
+
+---
+
+## Why is this a problem?
+
+:::: {.columns}
+
+::: {.column width="58%"}
+- It undermines **reproducibility**. With multiple versions, it becomes hard to know which file produced which result.
+- It is fragile and chaotic.
+- It is hard to see the history of a file.
+- Why did we change the cleaning rule or drop those cases?
+- Two people edited the same file. What changed, and how do we combine it?
+
+:::
+
+::: {.column width="38%"}
+
+![](images/not-fine.png){fig-align="center"}
+
+:::
+
+::::
+
+*We need a better way.*
+
+---
+
+## What is Git? {.sec background-color="#28A7A7"}
+
+---
+
+::: {.center style="font-size: 2.2em; line-height: 1.6; text-align: center; max-width: 80%; margin: 0 auto;"}
+**Git is software that tracks changes to your files.**
+:::
+
+---
+
+
+**Git**
+: Software on your computer that tracks changes to files and records project history.
+
+**Repository**
+: A project folder that Git is watching, including the hidden `.git` folder that stores the history.
+
+**GitHub**
+: A website that hosts repositories online for backup, sharing, and collaboration.
+
+You can use Git entirely locally, without GitHub.
+
+---
+
+## How you interact with Git
+
+1. Through the [command line]{.alert}
+
+::: {style="font-size: 1.3em;"}
+```bash
+git init
+git add cleaning.R
+git commit -m "Add initial cleaning script"
+```
+:::
+
+2. Through a [graphical client]{.alert} (e.g., GitHub Desktop, Tower)
+
+
+[Different interfaces, but doing the same thing underneath.]{.muted}
+
+---
+
+![](images/tower-screenshot.png){fig-align="center"}
+
+## Local vs. remote repositories
+
+Local repository
+: The working copy [on your computer]{.alert}. You can edit files and make commits offline.
+
+Remote repository
+: A linked copy hosted [online]{.alert} (e.g., GitHub), containing the complete history of your repository.
+
+We can send and receive changes from the remote. This is referred to as "pushing" and "pulling".
+
+---
+
+![](images/flow-1.png)
+
+---
+
+![](images/flow-2.png)
+
+---
+
+
+## Three reasons to use Git {.sec background-color="#C24B40"}
+
+---
+
+:::: {.columns style="font-size:0.9em;"}
+
+::: {.column width="33%"}
+[1. Complete history]{.reason-card-title}
+
+- Every change annotated with a message
+- Go back to any earlier version
+- Compare exactly what changed between two points
+- Remember why you made decisions months later
+:::
+
+::: {.column width="33%"}
+[2. Collaboration]{.reason-card-title}
+
+- One repository, multiple contributors
+- Everyone works locally, shares changes via the repository
+- Git records who changed what, and when
+- Pull, edit, commit, push
+:::
+
+::: {.column width="33%"}
+[3. Open research]{.reason-card-title}
+
+- Sits alongside a paper or report
+- Readers can inspect the files, `README`, and history
+- Start private, make public when ready
+- Funders and journals increasingly expect this
+:::
+
+::::
+
+---
+
+![](images/pmsims-repository.png){width="92%" fig-align="center"}
+
+---
+
+![](images/pmsims-readme.png){width="120%" fig-align="center"}
+
+---
+
+## Key concepts {.sec background-color="#6B4E9B"}
+
+---
+
+## Four key terms
+
+:::: {.key-terms-grid}
+
+::: {.key-term-card .key-term-repository}
+::: {.key-term-title}
+Repository
+:::
+Your project folder plus its recorded history.
+:::
+
+::: {.key-term-card .key-term-file-state}
+::: {.key-term-title}
+Tracked / untracked
+:::
+A file is untracked until you tell Git to watch it. After that, Git treats it as tracked.
+:::
+
+::: {.key-term-card .key-term-staging}
+::: {.key-term-title}
+Staging
+:::
+Staging means choosing which tracked changes should go into the next commit.
+:::
+
+::: {.key-term-card .key-term-commit}
+::: {.key-term-title}
+Commit
+:::
+A commit is a saved snapshot of the staged changes at one point in time.
+:::
+
+::::
+
+---
+
+## How Git thinks about your files
+
+- A file can sit in your project folder without being part of the repository yet
+- Git calls that file **untracked**
+- When you tell Git to watch it, the file becomes **tracked**
+- The hidden `.git` folder stores the repository history inside the project folder
+
+---
+
+## The workflow
+
+:::: {.columns}
+::: {.column width="45%"}
+<div class="workflow-steps">
+  <div class="workflow-step active"><span class="workflow-step-number">1</span><span class="workflow-step-label">Initialise repository</span></div>
+  <div class="workflow-step"><span class="workflow-step-number">2</span><span class="workflow-step-label">Add files to the repository</span></div>
+  <div class="workflow-step"><span class="workflow-step-number">3</span><span class="workflow-step-label">Choose first commit contents</span></div>
+  <div class="workflow-step"><span class="workflow-step-number">4</span><span class="workflow-step-label">Make first commit</span></div>
+  <div class="workflow-step-gap"></div>
+  <div class="workflow-step"><span class="workflow-step-number">5</span><span class="workflow-step-label">Edit a file</span></div>
+  <div class="workflow-step"><span class="workflow-step-number">6</span><span class="workflow-step-label">Choose which changes to commit</span></div>
+  <div class="workflow-step"><span class="workflow-step-number">7</span><span class="workflow-step-label">Commit again</span></div>
+  <div class="workflow-step-gap"></div>
+  <div class="workflow-step workflow-step-repeat"><span class="workflow-step-number">...</span><span class="workflow-step-label">Repeat</span></div>
+</div>
+:::
+
+::: {.column width="58%"}
+<div class="workflow-definition">
+  <div class="workflow-definition-kicker">Step 1</div>
+  <div class="workflow-definition-title">Start the repository</div>
+  <p>Git creates the hidden <code>.git</code> folder inside your project. Your files stay where they are.</p>
+</div>
+:::
+::::
+
+---
+
+## The workflow
+
+:::: {.columns}
+::: {.column width="45%"}
+<div class="workflow-steps">
+  <div class="workflow-step"><span class="workflow-step-number">1</span><span class="workflow-step-label">Initialise repository</span></div>
+  <div class="workflow-step active"><span class="workflow-step-number">2</span><span class="workflow-step-label">Add files to the repository</span></div>
+  <div class="workflow-step"><span class="workflow-step-number">3</span><span class="workflow-step-label">Choose first commit contents</span></div>
+  <div class="workflow-step"><span class="workflow-step-number">4</span><span class="workflow-step-label">Make first commit</span></div>
+  <div class="workflow-step-gap"></div>
+  <div class="workflow-step"><span class="workflow-step-number">5</span><span class="workflow-step-label">Edit a file</span></div>
+  <div class="workflow-step"><span class="workflow-step-number">6</span><span class="workflow-step-label">Choose which changes to commit</span></div>
+  <div class="workflow-step"><span class="workflow-step-number">7</span><span class="workflow-step-label">Commit again</span></div>
+  <div class="workflow-step-gap"></div>
+  <div class="workflow-step workflow-step-repeat"><span class="workflow-step-number">...</span><span class="workflow-step-label">Repeat</span></div>
+</div>
+:::
+
+::: {.column width="58%"}
+<div class="workflow-definition">
+  <div class="workflow-definition-kicker">Step 2</div>
+  <div class="workflow-definition-title">Tell Git which files belong in the repository</div>
+  <p>The files are already in your folder. This step tells Git to start tracking them.</p>
+</div>
+:::
+::::
+
+---
+
+## The workflow
+
+:::: {.columns}
+::: {.column width="45%"}
+<div class="workflow-steps">
+  <div class="workflow-step"><span class="workflow-step-number">1</span><span class="workflow-step-label">Initialise repository</span></div>
+  <div class="workflow-step"><span class="workflow-step-number">2</span><span class="workflow-step-label">Add files to the repository</span></div>
+  <div class="workflow-step active"><span class="workflow-step-number">3</span><span class="workflow-step-label">Choose first commit contents</span></div>
+  <div class="workflow-step"><span class="workflow-step-number">4</span><span class="workflow-step-label">Make first commit</span></div>
+  <div class="workflow-step-gap"></div>
+  <div class="workflow-step"><span class="workflow-step-number">5</span><span class="workflow-step-label">Edit a file</span></div>
+  <div class="workflow-step"><span class="workflow-step-number">6</span><span class="workflow-step-label">Choose which changes to commit</span></div>
+  <div class="workflow-step"><span class="workflow-step-number">7</span><span class="workflow-step-label">Commit again</span></div>
+  <div class="workflow-step-gap"></div>
+  <div class="workflow-step workflow-step-repeat"><span class="workflow-step-number">...</span><span class="workflow-step-label">Repeat</span></div>
+</div>
+:::
+
+::: {.column width="58%"}
+<div class="workflow-definition">
+  <div class="workflow-definition-kicker">Step 3</div>
+  <div class="workflow-definition-title">Choose what goes into the first commit</div>
+  <p>Git calls this staging. You are choosing which tracked files should go into the next commit.</p>
+</div>
+:::
+::::
+
+---
+
+## The workflow
+
+:::: {.columns}
+::: {.column width="45%"}
+<div class="workflow-steps">
+  <div class="workflow-step"><span class="workflow-step-number">1</span><span class="workflow-step-label">Initialise repository</span></div>
+  <div class="workflow-step"><span class="workflow-step-number">2</span><span class="workflow-step-label">Add files to the repository</span></div>
+  <div class="workflow-step"><span class="workflow-step-number">3</span><span class="workflow-step-label">Choose first commit contents</span></div>
+  <div class="workflow-step active"><span class="workflow-step-number">4</span><span class="workflow-step-label">Make first commit</span></div>
+  <div class="workflow-step-gap"></div>
+  <div class="workflow-step"><span class="workflow-step-number">5</span><span class="workflow-step-label">Edit a file</span></div>
+  <div class="workflow-step"><span class="workflow-step-number">6</span><span class="workflow-step-label">Choose which changes to commit</span></div>
+  <div class="workflow-step"><span class="workflow-step-number">7</span><span class="workflow-step-label">Commit again</span></div>
+  <div class="workflow-step-gap"></div>
+  <div class="workflow-step workflow-step-repeat"><span class="workflow-step-number">...</span><span class="workflow-step-label">Repeat</span></div>
+</div>
+:::
+
+::: {.column width="58%"}
+<div class="workflow-definition">
+  <div class="workflow-definition-kicker">Step 4</div>
+  <div class="workflow-definition-title">Save the first version</div>
+  <p>Your first commit gives the repository a starting point and a message explaining what it contains.</p>
+</div>
+:::
+::::
+
+---
+
+## The workflow
+
+:::: {.columns}
+::: {.column width="45%"}
+<div class="workflow-steps">
+  <div class="workflow-step"><span class="workflow-step-number">1</span><span class="workflow-step-label">Initialise repository</span></div>
+  <div class="workflow-step"><span class="workflow-step-number">2</span><span class="workflow-step-label">Add files to the repository</span></div>
+  <div class="workflow-step"><span class="workflow-step-number">3</span><span class="workflow-step-label">Choose first commit contents</span></div>
+  <div class="workflow-step"><span class="workflow-step-number">4</span><span class="workflow-step-label">Make first commit</span></div>
+  <div class="workflow-step-gap"></div>
+  <div class="workflow-step active"><span class="workflow-step-number">5</span><span class="workflow-step-label">Edit a file</span></div>
+  <div class="workflow-step"><span class="workflow-step-number">6</span><span class="workflow-step-label">Choose which changes to commit</span></div>
+  <div class="workflow-step"><span class="workflow-step-number">7</span><span class="workflow-step-label">Commit again</span></div>
+  <div class="workflow-step-gap"></div>
+  <div class="workflow-step workflow-step-repeat"><span class="workflow-step-number">...</span><span class="workflow-step-label">Repeat</span></div>
+</div>
+:::
+
+::: {.column width="58%"}
+<div class="workflow-definition">
+  <div class="workflow-definition-kicker">Step 5</div>
+  <div class="workflow-definition-title">Work normally</div>
+  <p>Edit a tracked file and save it on your computer. Git notices the change and waits for you to decide what to do next.</p>
+</div>
+:::
+::::
+
+---
+
+## The workflow
+
+:::: {.columns}
+::: {.column width="45%"}
+<div class="workflow-steps">
+  <div class="workflow-step"><span class="workflow-step-number">1</span><span class="workflow-step-label">Initialise repository</span></div>
+  <div class="workflow-step"><span class="workflow-step-number">2</span><span class="workflow-step-label">Add files to the repository</span></div>
+  <div class="workflow-step"><span class="workflow-step-number">3</span><span class="workflow-step-label">Choose first commit contents</span></div>
+  <div class="workflow-step"><span class="workflow-step-number">4</span><span class="workflow-step-label">Make first commit</span></div>
+  <div class="workflow-step-gap"></div>
+  <div class="workflow-step"><span class="workflow-step-number">5</span><span class="workflow-step-label">Edit a file</span></div>
+  <div class="workflow-step active"><span class="workflow-step-number">6</span><span class="workflow-step-label">Choose which changes to commit</span></div>
+  <div class="workflow-step"><span class="workflow-step-number">7</span><span class="workflow-step-label">Commit again</span></div>
+  <div class="workflow-step-gap"></div>
+  <div class="workflow-step workflow-step-repeat"><span class="workflow-step-number">...</span><span class="workflow-step-label">Repeat</span></div>
+</div>
+:::
+
+::: {.column width="58%"}
+<div class="workflow-definition">
+  <div class="workflow-definition-kicker">Step 6</div>
+  <div class="workflow-definition-title">Select what belongs in the next version</div>
+  <p>This is staging again — the same <code>git add</code> command as step 2. You are choosing which edits should go into the next commit.</p>
+</div>
+:::
+::::
+
+---
+
+## The workflow
+
+:::: {.columns}
+::: {.column width="45%"}
+<div class="workflow-steps">
+  <div class="workflow-step"><span class="workflow-step-number">1</span><span class="workflow-step-label">Initialise repository</span></div>
+  <div class="workflow-step"><span class="workflow-step-number">2</span><span class="workflow-step-label">Add files to the repository</span></div>
+  <div class="workflow-step"><span class="workflow-step-number">3</span><span class="workflow-step-label">Choose first commit contents</span></div>
+  <div class="workflow-step"><span class="workflow-step-number">4</span><span class="workflow-step-label">Make first commit</span></div>
+  <div class="workflow-step-gap"></div>
+  <div class="workflow-step"><span class="workflow-step-number">5</span><span class="workflow-step-label">Edit a file</span></div>
+  <div class="workflow-step"><span class="workflow-step-number">6</span><span class="workflow-step-label">Choose which changes to commit</span></div>
+  <div class="workflow-step active"><span class="workflow-step-number">7</span><span class="workflow-step-label">Commit again</span></div>
+  <div class="workflow-step-gap"></div>
+  <div class="workflow-step workflow-step-repeat"><span class="workflow-step-number">...</span><span class="workflow-step-label">Repeat</span></div>
+</div>
+:::
+
+::: {.column width="58%"}
+<div class="workflow-definition">
+  <div class="workflow-definition-kicker">Step 7</div>
+  <div class="workflow-definition-title">Save the next version and repeat</div>
+  <p>Make another commit with a clear message. From that point on, the pattern is edit, choose, commit, repeat.</p>
+</div>
+:::
+::::
+
+---
+
+## The workflow
+
+:::: {.columns}
+::: {.column width="45%"}
+<div class="workflow-steps">
+  <div class="workflow-step"><span class="workflow-step-number">1</span><span class="workflow-step-label">Initialise repository</span></div>
+  <div class="workflow-step"><span class="workflow-step-number">2</span><span class="workflow-step-label">Add files to the repository</span></div>
+  <div class="workflow-step"><span class="workflow-step-number">3</span><span class="workflow-step-label">Choose first commit contents</span></div>
+  <div class="workflow-step"><span class="workflow-step-number">4</span><span class="workflow-step-label">Make first commit</span></div>
+  <div class="workflow-step-gap"></div>
+  <div class="workflow-step"><span class="workflow-step-number">5</span><span class="workflow-step-label">Edit a file</span></div>
+  <div class="workflow-step"><span class="workflow-step-number">6</span><span class="workflow-step-label">Choose which changes to commit</span></div>
+  <div class="workflow-step"><span class="workflow-step-number">7</span><span class="workflow-step-label">Commit again</span></div>
+  <div class="workflow-step-gap"></div>
+  <div class="workflow-step active workflow-step-repeat"><span class="workflow-step-number">...</span><span class="workflow-step-label">Repeat</span></div>
+</div>
+:::
+
+::: {.column width="58%"}
+<div class="workflow-definition">
+  <div class="workflow-definition-kicker">Step 7</div>
+  <div class="workflow-definition-title">Save the next version and repeat</div>
+  <p>Continue working, and repeat the process as needed.</p>
+</div>
+:::
+::::
+
+---
+
+A commit gives you a saved version of your staged changes, together with its message, author, and timestamp.
+
+::: {.center style="text-align:center; margin: 0 auto; max-width: 80%; padding: 0px;"}
+![](images/annotated-history.png){width="100%" fig-align="center"}
+:::
+
+- Browse the timeline of saved versions.
+- Compare exactly what changed between two points.
+- Recover an earlier version safely if something goes wrong.
+
+---
+
+## <span class="sec-kicker">DEMONSTRATION</span><span class="sec-title">Seeing the workflow in action</span> {.sec .demo-sec background-color="#1E7F71"}
+
+---
+
+## An example project
+
+We'll work with synthetic data from an NHS inpatient mental health service.
+
+The example project includes a `README.md`, a `.gitignore`, one dataset in `data/`, and three scripts in `scripts/` that:
+
+::: {.box color="red"}
+1. Import and clean the data (`scripts/clean.R`)
+2. Build a model to predict 30-day readmission (`scripts/model.R`)
+3. Plot the calibration slope (`scripts/plots.R`)
+:::
+
+See the `example` folder on [GitHub][example] to download the files.
+
+[Note: You do not need to understand the R code, or even run it.]{.muted}
+
+[example]: https://github.com/ewancarr/brc-git-workshop-2026/tree/main/example
+
+---
+
+To begin, we'll assume we have downloaded the `example/` project folder, which includes:
+
+`README.md`
+: A short description of the project
+
+`scripts/clean.R`
+: The cleaning script
+
+`data/admissions.csv`
+: The raw data, present locally but ignored by Git
+
+`.gitignore`
+: Rules telling Git not to track `data/` or `outputs/`
+
+<br>
+
+::: {.box}
+Our goal is to:
+
+1. Put this project under version control; and
+2. Make two commits.
+:::
+
+---
+
+## Demo 1 · Initialise and first commit
+
+::: {.task-panel}
+<div class="task-item">Open GitHub Desktop</div>
+<div class="task-item">**File → Add Local Repository** → choose the `example/` folder</div>
+<div class="task-item">Click **Create a Repository** when prompted</div>
+<div class="task-item">All project files appear in the Changes panel and are selected for the first commit</div>
+<div class="task-item">Write commit message: *Initial commit: add admissions example project*</div>
+<div class="task-item">Click **Commit to main**</div>
+:::
+
+---
+
+## Demo 1 · Make a change and commit again
+
+::: {.task-panel}
+<div class="task-item">Open `scripts/clean.R`, add a comment at the top, save</div>
+<div class="task-item">GitHub Desktop shows the change in the Changes panel</div>
+<div class="task-item">Click the file to show the **diff**</div>
+<div class="task-item">Write commit message: *Add comment to cleaning script*</div>
+<div class="task-item">Click **Commit to main**</div>
+:::
+
+---
+
+## Demo 1 · View the history
+
+::: {.task-panel}
+<div class="task-item">Click the **History** tab</div>
+<div class="task-item">Two commits are listed, with message, author, and timestamp</div>
+<div class="task-item">Click each commit to see exactly what changed</div>
+:::
+
+---
+
+## How to do this on the command line?
+
+Initialise, add, and commit:
+
+::: {style="font-size: 1.4em;"}
+```bash
+git init                        # Initialise the repository
+git add .                       # Stage all files
+git commit -m "Initial commit"  # Save the first snapshot
+```
+:::
+
+Make a change to `scripts/clean.R`, then:
+
+::: {style="font-size: 1.4em;"}
+```bash
+git status                      # See what's changed
+git add scripts/clean.R         # Stage the changed file
+git commit -m "Add comment to cleaning script"
+git log --oneline               # View the history
+```
+:::
+
+---
+
+## <span class="sec-kicker">DEMONSTRATION</span><span class="sec-title">Going online</span> {.sec .demo-sec background-color="#C24B40"}
+
+---
+
+## Going online
+
+- The repository we just created only lives on our computer.
+
+- We can work entirely offline, committing changes and building up a history using Git.
+
+- However, to share it with others, we need to connect it to a **remote** repository.
+
+- We’re using GitHub, but there are several online hosting platforms for Git repositories (e.g. GitLab, Bitbucket).
+
+---
+
+The remote repository is a linked copy of your local repository that is hosted online (e.g., GitHub).
+
+![](images/local-remote.png){fig-align="center"}
+
+Going online adds a shared copy of the repository. It does not replace the local one on your computer.
+
+---
+
+## Connect, then push
+
+1. Connect your local repository to the GitHub repository that will hold the online copy.
+2. Push your existing commits so GitHub receives that history and creates the remote copy.
+3. After that, future pushes update the same remote repository, and pulls bring those shared changes back to your computer.
+
+::: {.callout-tip}
+GitHub Desktop wraps this into a simple publish flow. The command line shows the same ideas as separate steps.
+:::
+
+---
+
+## Signing in to GitHub
+
+### GitHub Desktop
+
+*Windows*
+
+<kbd>File</kbd> → <kbd>Options</kbd> → <kbd>Accounts</kbd>
+
+*Mac*
+
+<kbd>GitHub Desktop</kbd> → <kbd>Settings</kbd> → <kbd>Accounts</kbd>
+
+### Command line
+
+* Use the GitHub command line client:
+  `gh auth login`
+
+* Or follow GitHub's [SSH setup guide][ssh-setup]
+
+[Full instructions are on the workshop setup page.]{.muted}
+
+[ssh-setup]: https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
+
+---
+
+## Demo 2 · Create a repository on GitHub and connect it
+
+::: {.task-panel}
+<div class="task-item">Go to github.com → **+** → **New repository**</div>
+<div class="task-item">Name it `admissions-example`, set it to **Private**</div>
+<div class="task-item">Leave README, `.gitignore`, and licence unticked</div>
+<div class="task-item">Click **Create repository**</div>
+<div class="task-item">In GitHub Desktop, click **Publish repository** → confirm name → **Publish**</div>
+:::
+
+---
+
+## Demo 2 · The magic moment
+
+::: {.task-panel}
+<div class="task-item">Refresh the GitHub repository page</div>
+<div class="task-item">Files are listed, the README is rendered, and the commit history is visible</div>
+:::
+
+::: {.callout-tip}
+Your entire project is now on GitHub: files, history, and commit messages. Backed up, visible, and shareable.
+:::
+
+---
+
+## Demo 2 · One more commit → push → watch it arrive
+
+::: {.task-panel}
+<div class="task-item">Make a small edit to `README.md` locally and save</div>
+<div class="task-item">Commit the change</div>
+<div class="task-item">Click **Push origin**</div>
+<div class="task-item">Refresh GitHub and watch the new commit appear</div>
+:::
+
+---
+
+## 🧠 Mini quiz {.sec background-color="#EA526F"}
+
+---
+
+![](images/mentimeter_qr_code.png){width="30%" fig-align="center"}
+
+<div style="text-align: center; margin-top: 0.5em;">
+<a href="https://www.menti.com/alrgybisqx9m"><code>menti.com/alrgybisqx9m</code></a>
+</div>
+
+---
+
+## Best practices {.sec background-color="#28A7A7"}
+
+---
+
+## What should go in a commit?
+
+* A commit should represent **one coherent change**.
+* Think "what did I just do?", not "which file did I edit?"
+* A single commit will often include changes across multiple files
+
+*If you can describe the change in one sentence, it’s probably a good commit.*
+
+## Writing good commit messages
+
+A commit message should explain what changed **and why**.
+
+::: {style="font-size: 1.5em; padding: 0.1em;"}
+```
+Short summary line describing what changed
+
+An optional longer description, explaining why it
+changed and adding any important details.
+```
+:::
+
+The description should explain the problem being addressed, the approach taken,
+and any assumptions or trade-offs involved.
+
+
+---
+
+:::: {.columns}
+
+
+::: {.column .good-examples-column width="80%"}
+
+### 🚀 Good examples
+
+::: {.box color="green"}
+**Add cross-validation to model pipeline**<br>
+<br>
+
+Implements 5-fold CV for logistic regression model. This replaces the previous
+single train/test split to reduce variance in performance estimates.
+:::
+
+::: {.box color="green"}
+**Check for missing values before model fitting**
+<br><br>
+
+Introduces a check to stop execution if key variables contain missing
+values. This prevents silent failures and unexpected model behaviour.
+:::
+
+:::
+
+::: {.column .bad-examples-column width="30%"}
+
+### 🔥 Bad examples
+
+- `Monday's work`
+- `Changes`
+- `Update`
+- `Final version`
+
+:::
+
+::::
+
+---
+
+## You can (and should) tell Git to ignore some files
+
+Create a file `.gitignore` in the project folder. Use this file to omit files
+you don't want under version control. For example:
+
+::: {style="font-size: 1.6em;"}
+```bash
+data/       # Ignore everything in 'data'
+outputs/    # and 'outputs'
+
+.Rhistory   # Ignore a specific file
+.RData
+*.Rproj     # Ignore any file ending in .Rproj
+```
+:::
+
+* **Yes:** Scripts, code, READMEs, manuscript text, config files.
+* **No:** Raw or derived data, large outputs, model files, credentials, API keys
+
+---
+
+::: {.center style="color: #8a001a; font-weight: 600; font-size: 2.2em; line-height: 1.6; text-align: center; max-width: 80%; margin: 0 auto;"}
+
+Never commit patient data.
+:::
+
+---
+
+Add any data folders (e.g., `data`) to your `.gitignore` file **before** any data files are added.
+
+::: {.callout-warning}
+**Once sensitive data is committed to a public repository, deleting the file later is not enough.**
+
+Git history can still contain the earlier version, so pushing first and deleting later does not undo the exposure.
+:::
+
+---
+
+### March 2026:
+
+Researchers using UK Biobank data committed data folders locally, pushed them to GitHub, and then exposed them publicly.
+
+![](images/guardian-breach.png){width="100%" fig-align="center"}
+
+---
+
+## Branches {.sec background-color="#2D3561"}
+
+---
+
+
+A branch is a separate line of work within the same repository.
+
+Until now, we’ve been thinking about a single history. This is usually called
+the `main` branch.
+
+![](images/branching/single-branch.png){width="82%" fig-align="center"}
+
+---
+
+Git lets us have multiple branches:
+
+![](images/branching/two-branches.png){fig-align="center"}
+
+---
+
+## Why use branches?
+
+- They let you try something new without changing the version you already trust
+- They let you prepare work for review before it reaches `main`
+- In collaborative projects, they let people work on different things without all editing the same branch
+
+---
+
+## How? First, create and switch to a new branch
+
+On the command line, use `git switch -c` to create a new branch and move to it
+immediately. Here, I've named the branch `add-figure-2`:
+
+::: {style="font-size: 1.6em;"}
+```bash
+git switch -c add-figure-2
+```
+:::
+
+![](images/branching/branching-flow-1.png){width="100%" fig-align="center"}
+
+---
+
+On GitHub Desktop, choose <kbd>Branch</kbd>→<kbd>New Branch...</kbd>
+
+![](images/new-branch-github-desktop.png){fig-align="center"}
+
+Note that new commits now go on that branch, not `main`.
+
+## When you switch branches, your files switch too
+
+![](images/branching/branching-flow-2.png){width="100%" fig-align="center"}
+
+- Git updates your working directory to match the branch you switched to.
+- Your work on the other branch is still there in its commits.
+- To go back, switch back:
+
+::: {style="font-size: 1.6em;"}
+```bash
+git switch main
+```
+:::
+
+## When you're done, delete or merge back
+
+::: {.center}
+![](images/branching/branching-flow-3.png){width="70%" fig-align="center"}
+:::
+
+### Branches are a safe place to experiment
+
+* If it works, you can **merge** it back into the main branch. Merging means
+  bringing the commits from that branch into the main line of the project
+
+* If not, you **delete** the branch and continue on main.
+
+---
+
+
+
+## Demonstration · Switch to a branch and back again
+
+::: {.task-panel}
+<div class="task-item">Start on <strong>main</strong></div>
+<div class="task-item">Create and switch: <code>git switch -c add-readme-note</code></div>
+<div class="task-item">Edit <code>README.md</code>, save, and commit the change</div>
+<div class="task-item">Switch back: <code>git switch main</code></div>
+<div class="task-item">The working directory returns to the <strong>main</strong> version</div>
+<div class="task-item">Switch again: <code>git switch add-readme-note</code></div>
+<div class="task-item">The committed edit reappears</div>
+:::
+
+---
+
+
+
+
+## Collaboration {.sec background-color="#6B4E9B"}
+
+---
+
+## How collaboration works
+
+- A shared repository lives on GitHub (the **hub**)
+- Each person has their own local copy
+- Work flows like this:
+  - **Pull**: get the latest changes from GitHub
+  - **Edit**: make changes locally
+  - **Push**: send your changes back to GitHub
+
+GitHub is the single source of truth.
+
+---
+
+![](images/hub-spoke-alt.png){fig-width="78%" fig-align="center"}
+
+
+## When collaborating, use feature branches
+
+Never work directly on `main` — create a **feature branch** for each piece of work.
+
+:::: {.columns}
+
+::: {.column width="50%"}
+### Example branch names
+
+- `cleaning-fix-missing-values`
+- `add-figure-2`
+- `update-inclusion-criteria`
+:::
+
+::: {.column width="50%"}
+### Why?
+
+- Keeps `main` stable
+- Lets you work safely without breaking anything
+- Makes it easier to review changes
+:::
+
+::::
+
+---
+
+## How changes get into `main`
+
+1. Create a feature branch
+2. Make your changes
+3. Commit your work
+4. Push the branch to GitHub
+5. Open a **Pull Request (PR)**
+
+---
+
+## What is a PR?
+
+- A request to merge your changes into `main`
+- Others can:
+  - Review your code
+  - Suggest changes
+  - Approve and merge
+
+
+## A simple workflow to follow
+
+When you start work:
+
+1. Pull the latest version of `main`
+2. Create a new feature branch
+
+While working:
+
+3. Make small commits with clear messages
+
+When finished:
+
+4. Push your branch to GitHub
+5. Open a Pull Request
+6. Get it reviewed and merged
+
+---
+
+### Golden rules:
+
+- Pull before you start
+- Don’t work on `main`
+- Keep changes small and focused
+
+
+---
+
+
+## Forks let you contribute without write access
+
+- A fork is your own GitHub copy of someone else's repository
+- You only need this when you cannot push directly to the original repository
+- You clone your fork, make the change, push to your fork, and then open a pull request back to the original repository
+- This is the workflow we will use in the collaborative exercise
+
+---
+
+## Where to go next
+
+[Happy Git with R](https://happygitwithr.com)
+: Git, GitHub, and RStudio — the best starting point for R users.
+
+[Pro Git](https://git-scm.com/book/en/v2)
+: The definitive Git reference, free online.
+
+[Software Carpentry: Version Control with Git](https://swcarpentry.github.io/git-novice/)
+: A self-paced hands-on lesson for researchers.
+
+[Oh Shit, Git!?](https://ohshitgit.com)
+: Plain-English fixes for common mistakes.
+
+[Excuse me, do you have a moment to talk about version control?](https://www.tandfonline.com/doi/full/10.1080/00031305.2017.1399928)
+: Bryan (2018) — the academic case for version control in research.
+
+---
+
+::: {.center style="font-size: 2.4em; font-weight: 600; text-align: center;"}
+5-minute break
+:::
+
+---
+
+## Exercises
+
+::: {style="font-size:1.3em;"}
+0. Check your setup
+1. Your first local repository
+2. Push to GitHub
+3. Make a change and push again
+4. Add your name to a shared repository
+:::
+
+<div style="text-align: center; margin-top: 0.5em; font-size: 1.8em;">
+<a href="https://tinyurl.com/brc-git-github"><code>tinyurl.com/brc-git-github</code></a>
+</div>
+
+
+---
+
+## Appendix: First-time setup {.sec background-color="#C24B40"}
+
+---
+
+## `git config` — three lines to run once
+
+```bash
+git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
+git config --global init.defaultBranch main
+```
+
+`user.name` / `user.email`
+: Your identity on every commit
+
+`init.defaultBranch`
+: Optional hygiene: use `main` instead of the old `master` default when you create new repositories from the command line
+
+GitHub Desktop usually sets the important parts for you. These commands are mainly for command-line users who want Git configured explicitly.
+
+---
+
+## Where does `.gitconfig` live?
+
+| Platform | Location | How to open |
+|---|---|---|
+| **Mac** | `~/.gitconfig` | `open ~/.gitconfig` or any text editor |
+| **Windows** | `C:\Users\YourName\.gitconfig` | Notepad, VS Code, or `notepad $HOME\.gitconfig` in PowerShell |
+
+::: {.callout-note}
+`.gitconfig` is a hidden file. To show it:
+**Mac** — `Cmd+Shift+.` in Finder
+**Windows** — View → Show → Hidden items
+:::
+
+You can edit it directly in a text editor, or use `git config --global` commands. Both do the same thing.

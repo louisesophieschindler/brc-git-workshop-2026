@@ -1,0 +1,1949 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="slides_files/libs/clipboard/clipboard.min.js"></script>
+<script src="slides_files/libs/quarto-html/tabby.min.js"></script>
+<script src="slides_files/libs/quarto-html/popper.min.js"></script>
+<script src="slides_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="slides_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="slides_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="slides_files/libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.37">
+
+  <meta name="author" content="Dr Ewan Carr">
+  <title>Git for people who’ve been meaning to learn Git (but haven’t yet)</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="slides_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="slides_files/libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="slides_files/libs/revealjs/dist/theme/quarto-d35f1d614835438a5f89eda7dd8db170.css">
+  <link href="slides_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="slides_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="slides_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="slides_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Git for people who’ve been meaning to learn Git (but haven’t yet)</h1>
+  <p class="subtitle">NIHR Maudsley BRC<br>23 April 2026</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Dr Ewan Carr 
+</div>
+        <p class="quarto-title-affiliation">
+            King’s College London
+          </p>
+    </div>
+</div>
+
+</section>
+<section id="today" class="slide level2 today-slide center">
+<h2>Today</h2>
+<div class="columns">
+<div class="column" style="width:50%; flex:0 0 50%;">
+<div class="today-panel today-panel-outcomes">
+<div class="today-panel-title">
+<p>Three practical goals</p>
+</div>
+<div class="today-goals">
+<div class="today-goal today-goal-primary">
+<div class="today-goal-number">
+<p>1</p>
+</div>
+<div class="today-goal-copy">
+<p><strong>A clear mental model of Git</strong></p>
+<p>What it is, what a repository is, and how GitHub fits in.</p>
+</div>
+</div>
+<div class="today-goal today-goal-teal">
+<div class="today-goal-number">
+<p>2</p>
+</div>
+<div class="today-goal-copy">
+<p><strong>Your first repository</strong></p>
+<p>How to start tracking a project without making the workflow feel mysterious.</p>
+</div>
+</div>
+<div class="today-goal today-goal-accent">
+<div class="today-goal-number">
+<p>3</p>
+</div>
+<div class="today-goal-copy">
+<p><strong>A real commit pushed to GitHub</strong></p>
+<p>Enough confidence to try this on your own work.</p>
+</div>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%; flex:0 0 50%;">
+<div class="today-panel today-panel-agenda">
+<div class="today-panel-title">
+<p>Schedule</p>
+</div>
+<div class="today-session today-session-hour1">
+<div class="today-session-time">
+<p>14:00–15:00</p>
+</div>
+<div class="today-session-title">
+<p>Concepts and demonstrations</p>
+</div>
+<div class="today-session-copy">
+<p>Build the core ideas first, then watch the workflow happen end to end.</p>
+</div>
+</div>
+<div class="today-session today-session-hour2">
+<div class="today-session-time">
+<p>15:00–16:00</p>
+</div>
+<div class="today-session-title">
+<p>Practice</p>
+</div>
+<div class="today-session-copy">
+<p>Make a repository, commit changes, and try the workflow yourself.</p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section class="slide level2 center">
+
+<div class="center" style="text-align:center; margin: 0 auto; max-width: 70%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/ballot-box.png" class="quarto-figure quarto-figure-center" style="width:70.0%"></p>
+</figure>
+</div>
+<p><span class="muted">Your answers to the survey…</span></p>
+</div>
+</section>
+<section id="the-problem-were-trying-to-solve" class="slide level2 sec center" data-background-color="#EA526F">
+<h2>The problem we’re trying to solve</h2>
+</section>
+<section id="problem-1-file-names-as-versions" class="slide level2 center">
+<h2>Problem 1: File names as versions</h2>
+<div class="columns">
+<div class="column" style="width:40%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/xkcd-documents.png" class="quarto-figure quarto-figure-center" height="600"></p>
+</figure>
+</div>
+</div><div class="column">
+<p><code>analysis_final_v4_Ewan.R</code></p>
+<p><code>data-cleaning-March-3rd_new.py</code></p>
+<p><code>data-cleaning-THIS_ONE_WORKS.R</code></p>
+<ul>
+<li>Doesn’t scale well.</li>
+<li>No record of what changed or why.</li>
+<li>Hard to get back to the exact version you need.</li>
+</ul>
+</div></div>
+</section>
+<section id="problem-2-collaborating-on-code" class="slide level2 center">
+<h2>Problem 2: Collaborating on code</h2>
+<div class="columns">
+<div class="column" style="width:50%; flex:0 0 50%; display:flex; align-items:center; justify-content:center;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/email-script.png" class="quarto-figure quarto-figure-center" height="600"></p>
+</figure>
+</div>
+</div><div class="column" style="width:50%; flex:0 0 50%; display:flex; flex-direction:column; justify-content:center;">
+<ul>
+<li>You email a script to a colleague.</li>
+<li>You both edit it separately.</li>
+<li>Now there are two diverging versions.</li>
+<li>No easy way to see the differences or combine the edits.</li>
+</ul>
+</div></div>
+</section>
+<section id="why-is-this-a-problem" class="slide level2 center">
+<h2>Why is this a problem?</h2>
+<div class="columns">
+<div class="column" style="width:58%;">
+<ul>
+<li>It undermines <strong>reproducibility</strong>. With multiple versions, it becomes hard to know which file produced which result.</li>
+<li>It is fragile and chaotic.</li>
+<li>It is hard to see the history of a file.</li>
+<li>Why did we change the cleaning rule or drop those cases?</li>
+<li>Two people edited the same file. What changed, and how do we combine it?</li>
+</ul>
+</div><div class="column" style="width:38%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/not-fine.png" class="quarto-figure quarto-figure-center"></p>
+</figure>
+</div>
+</div></div>
+<p><em>We need a better way.</em></p>
+</section>
+<section id="what-is-git" class="slide level2 sec center" data-background-color="#28A7A7">
+<h2>What is Git?</h2>
+</section>
+<section class="slide level2 center">
+
+<div class="center" style="font-size: 2.2em; line-height: 1.6; text-align: center; max-width: 80%; margin: 0 auto;">
+<p><strong>Git is software that tracks changes to your files.</strong></p>
+</div>
+</section>
+<section class="slide level2 center">
+
+<dl>
+<dt><strong>Git</strong></dt>
+<dd>
+Software on your computer that tracks changes to files and records project history.
+</dd>
+<dt><strong>Repository</strong></dt>
+<dd>
+A project folder that Git is watching, including the hidden <code>.git</code> folder that stores the history.
+</dd>
+<dt><strong>GitHub</strong></dt>
+<dd>
+A website that hosts repositories online for backup, sharing, and collaboration.
+</dd>
+</dl>
+<p>You can use Git entirely locally, without GitHub.</p>
+</section>
+<section id="how-you-interact-with-git" class="slide level2 center">
+<h2>How you interact with Git</h2>
+<ol type="1">
+<li>Through the <span class="alert">command line</span></li>
+</ol>
+<div style="font-size: 1.3em;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> init</span>
+<span id="cb1-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add cleaning.R</span>
+<span id="cb1-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Add initial cleaning script"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ol start="2" type="1">
+<li>Through a <span class="alert">graphical client</span> (e.g., GitHub Desktop, Tower)</li>
+</ol>
+<p><span class="muted">Different interfaces, but doing the same thing underneath.</span></p>
+</section>
+<section class="slide level2 center">
+
+
+<img data-src="images/tower-screenshot.png" class="quarto-figure quarto-figure-center r-stretch"></section>
+<section id="local-vs.-remote-repositories" class="slide level2 center">
+<h2>Local vs.&nbsp;remote repositories</h2>
+<dl>
+<dt>Local repository</dt>
+<dd>
+The working copy <span class="alert">on your computer</span>. You can edit files and make commits offline.
+</dd>
+<dt>Remote repository</dt>
+<dd>
+A linked copy hosted <span class="alert">online</span> (e.g., GitHub), containing the complete history of your repository.
+</dd>
+</dl>
+<p>We can send and receive changes from the remote. This is referred to as “pushing” and “pulling”.</p>
+</section>
+<section class="slide level2 center">
+
+
+<img data-src="images/flow-1.png" class="r-stretch"></section>
+<section class="slide level2 center">
+
+
+<img data-src="images/flow-2.png" class="r-stretch"></section>
+<section id="three-reasons-to-use-git" class="slide level2 sec center" data-background-color="#C24B40">
+<h2>Three reasons to use Git</h2>
+</section>
+<section class="slide level2 center">
+
+<div class="columns" style="font-size:0.9em;">
+<div class="column" style="width:33%;">
+<p><span class="reason-card-title">1. Complete history</span></p>
+<ul>
+<li>Every change annotated with a message</li>
+<li>Go back to any earlier version</li>
+<li>Compare exactly what changed between two points</li>
+<li>Remember why you made decisions months later</li>
+</ul>
+</div><div class="column" style="width:33%;">
+<p><span class="reason-card-title">2. Collaboration</span></p>
+<ul>
+<li>One repository, multiple contributors</li>
+<li>Everyone works locally, shares changes via the repository</li>
+<li>Git records who changed what, and when</li>
+<li>Pull, edit, commit, push</li>
+</ul>
+</div><div class="column" style="width:33%;">
+<p><span class="reason-card-title">3. Open research</span></p>
+<ul>
+<li>Sits alongside a paper or report</li>
+<li>Readers can inspect the files, <code>README</code>, and history</li>
+<li>Start private, make public when ready</li>
+<li>Funders and journals increasingly expect this</li>
+</ul>
+</div></div>
+</section>
+<section class="slide level2 center">
+
+
+<img data-src="images/pmsims-repository.png" class="quarto-figure quarto-figure-center r-stretch" style="width:92.0%"></section>
+<section class="slide level2 center">
+
+
+<img data-src="images/pmsims-readme.png" class="quarto-figure quarto-figure-center r-stretch" style="width:120.0%"></section>
+<section id="key-concepts" class="slide level2 sec center" data-background-color="#6B4E9B">
+<h2>Key concepts</h2>
+</section>
+<section id="four-key-terms" class="slide level2 center">
+<h2>Four key terms</h2>
+<div class="key-terms-grid">
+<div class="key-term-card key-term-repository">
+<div class="key-term-title">
+<p>Repository</p>
+</div>
+<p>Your project folder plus its recorded history.</p>
+</div>
+<div class="key-term-card key-term-file-state">
+<div class="key-term-title">
+<p>Tracked / untracked</p>
+</div>
+<p>A file is untracked until you tell Git to watch it. After that, Git treats it as tracked.</p>
+</div>
+<div class="key-term-card key-term-staging">
+<div class="key-term-title">
+<p>Staging</p>
+</div>
+<p>Staging means choosing which tracked changes should go into the next commit.</p>
+</div>
+<div class="key-term-card key-term-commit">
+<div class="key-term-title">
+<p>Commit</p>
+</div>
+<p>A commit is a saved snapshot of the staged changes at one point in time.</p>
+</div>
+</div>
+</section>
+<section id="how-git-thinks-about-your-files" class="slide level2 center">
+<h2>How Git thinks about your files</h2>
+<ul>
+<li>A file can sit in your project folder without being part of the repository yet</li>
+<li>Git calls that file <strong>untracked</strong></li>
+<li>When you tell Git to watch it, the file becomes <strong>tracked</strong></li>
+<li>The hidden <code>.git</code> folder stores the repository history inside the project folder</li>
+</ul>
+</section>
+<section id="the-workflow" class="slide level2 center">
+<h2>The workflow</h2>
+<div class="columns">
+<div class="column" style="width:45%;">
+<div class="workflow-steps">
+<div class="workflow-step active">
+<span class="workflow-step-number">1</span><span class="workflow-step-label">Initialise repository</span>
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">2</span><span class="workflow-step-label">Add files to the repository</span>
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">3</span><span class="workflow-step-label">Choose first commit contents</span>
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">4</span><span class="workflow-step-label">Make first commit</span>
+</div>
+<div class="workflow-step-gap">
+
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">5</span><span class="workflow-step-label">Edit a file</span>
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">6</span><span class="workflow-step-label">Choose which changes to commit</span>
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">7</span><span class="workflow-step-label">Commit again</span>
+</div>
+<div class="workflow-step-gap">
+
+</div>
+<div class="workflow-step workflow-step-repeat">
+<span class="workflow-step-number">…</span><span class="workflow-step-label">Repeat</span>
+</div>
+</div>
+</div><div class="column" style="width:58%;">
+<div class="workflow-definition">
+<div class="workflow-definition-kicker">
+Step 1
+</div>
+<div class="workflow-definition-title">
+Start the repository
+</div>
+<p>
+Git creates the hidden <code>.git</code> folder inside your project. Your files stay where they are.
+</p>
+</div>
+</div></div>
+</section>
+<section id="the-workflow-1" class="slide level2 center">
+<h2>The workflow</h2>
+<div class="columns">
+<div class="column" style="width:45%;">
+<div class="workflow-steps">
+<div class="workflow-step">
+<span class="workflow-step-number">1</span><span class="workflow-step-label">Initialise repository</span>
+</div>
+<div class="workflow-step active">
+<span class="workflow-step-number">2</span><span class="workflow-step-label">Add files to the repository</span>
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">3</span><span class="workflow-step-label">Choose first commit contents</span>
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">4</span><span class="workflow-step-label">Make first commit</span>
+</div>
+<div class="workflow-step-gap">
+
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">5</span><span class="workflow-step-label">Edit a file</span>
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">6</span><span class="workflow-step-label">Choose which changes to commit</span>
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">7</span><span class="workflow-step-label">Commit again</span>
+</div>
+<div class="workflow-step-gap">
+
+</div>
+<div class="workflow-step workflow-step-repeat">
+<span class="workflow-step-number">…</span><span class="workflow-step-label">Repeat</span>
+</div>
+</div>
+</div><div class="column" style="width:58%;">
+<div class="workflow-definition">
+<div class="workflow-definition-kicker">
+Step 2
+</div>
+<div class="workflow-definition-title">
+Tell Git which files belong in the repository
+</div>
+<p>
+The files are already in your folder. This step tells Git to start tracking them.
+</p>
+</div>
+</div></div>
+</section>
+<section id="the-workflow-2" class="slide level2 center">
+<h2>The workflow</h2>
+<div class="columns">
+<div class="column" style="width:45%;">
+<div class="workflow-steps">
+<div class="workflow-step">
+<span class="workflow-step-number">1</span><span class="workflow-step-label">Initialise repository</span>
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">2</span><span class="workflow-step-label">Add files to the repository</span>
+</div>
+<div class="workflow-step active">
+<span class="workflow-step-number">3</span><span class="workflow-step-label">Choose first commit contents</span>
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">4</span><span class="workflow-step-label">Make first commit</span>
+</div>
+<div class="workflow-step-gap">
+
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">5</span><span class="workflow-step-label">Edit a file</span>
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">6</span><span class="workflow-step-label">Choose which changes to commit</span>
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">7</span><span class="workflow-step-label">Commit again</span>
+</div>
+<div class="workflow-step-gap">
+
+</div>
+<div class="workflow-step workflow-step-repeat">
+<span class="workflow-step-number">…</span><span class="workflow-step-label">Repeat</span>
+</div>
+</div>
+</div><div class="column" style="width:58%;">
+<div class="workflow-definition">
+<div class="workflow-definition-kicker">
+Step 3
+</div>
+<div class="workflow-definition-title">
+Choose what goes into the first commit
+</div>
+<p>
+Git calls this staging. You are choosing which tracked files should go into the next commit.
+</p>
+</div>
+</div></div>
+</section>
+<section id="the-workflow-3" class="slide level2 center">
+<h2>The workflow</h2>
+<div class="columns">
+<div class="column" style="width:45%;">
+<div class="workflow-steps">
+<div class="workflow-step">
+<span class="workflow-step-number">1</span><span class="workflow-step-label">Initialise repository</span>
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">2</span><span class="workflow-step-label">Add files to the repository</span>
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">3</span><span class="workflow-step-label">Choose first commit contents</span>
+</div>
+<div class="workflow-step active">
+<span class="workflow-step-number">4</span><span class="workflow-step-label">Make first commit</span>
+</div>
+<div class="workflow-step-gap">
+
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">5</span><span class="workflow-step-label">Edit a file</span>
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">6</span><span class="workflow-step-label">Choose which changes to commit</span>
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">7</span><span class="workflow-step-label">Commit again</span>
+</div>
+<div class="workflow-step-gap">
+
+</div>
+<div class="workflow-step workflow-step-repeat">
+<span class="workflow-step-number">…</span><span class="workflow-step-label">Repeat</span>
+</div>
+</div>
+</div><div class="column" style="width:58%;">
+<div class="workflow-definition">
+<div class="workflow-definition-kicker">
+Step 4
+</div>
+<div class="workflow-definition-title">
+Save the first version
+</div>
+<p>
+Your first commit gives the repository a starting point and a message explaining what it contains.
+</p>
+</div>
+</div></div>
+</section>
+<section id="the-workflow-4" class="slide level2 center">
+<h2>The workflow</h2>
+<div class="columns">
+<div class="column" style="width:45%;">
+<div class="workflow-steps">
+<div class="workflow-step">
+<span class="workflow-step-number">1</span><span class="workflow-step-label">Initialise repository</span>
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">2</span><span class="workflow-step-label">Add files to the repository</span>
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">3</span><span class="workflow-step-label">Choose first commit contents</span>
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">4</span><span class="workflow-step-label">Make first commit</span>
+</div>
+<div class="workflow-step-gap">
+
+</div>
+<div class="workflow-step active">
+<span class="workflow-step-number">5</span><span class="workflow-step-label">Edit a file</span>
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">6</span><span class="workflow-step-label">Choose which changes to commit</span>
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">7</span><span class="workflow-step-label">Commit again</span>
+</div>
+<div class="workflow-step-gap">
+
+</div>
+<div class="workflow-step workflow-step-repeat">
+<span class="workflow-step-number">…</span><span class="workflow-step-label">Repeat</span>
+</div>
+</div>
+</div><div class="column" style="width:58%;">
+<div class="workflow-definition">
+<div class="workflow-definition-kicker">
+Step 5
+</div>
+<div class="workflow-definition-title">
+Work normally
+</div>
+<p>
+Edit a tracked file and save it on your computer. Git notices the change and waits for you to decide what to do next.
+</p>
+</div>
+</div></div>
+</section>
+<section id="the-workflow-5" class="slide level2 center">
+<h2>The workflow</h2>
+<div class="columns">
+<div class="column" style="width:45%;">
+<div class="workflow-steps">
+<div class="workflow-step">
+<span class="workflow-step-number">1</span><span class="workflow-step-label">Initialise repository</span>
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">2</span><span class="workflow-step-label">Add files to the repository</span>
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">3</span><span class="workflow-step-label">Choose first commit contents</span>
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">4</span><span class="workflow-step-label">Make first commit</span>
+</div>
+<div class="workflow-step-gap">
+
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">5</span><span class="workflow-step-label">Edit a file</span>
+</div>
+<div class="workflow-step active">
+<span class="workflow-step-number">6</span><span class="workflow-step-label">Choose which changes to commit</span>
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">7</span><span class="workflow-step-label">Commit again</span>
+</div>
+<div class="workflow-step-gap">
+
+</div>
+<div class="workflow-step workflow-step-repeat">
+<span class="workflow-step-number">…</span><span class="workflow-step-label">Repeat</span>
+</div>
+</div>
+</div><div class="column" style="width:58%;">
+<div class="workflow-definition">
+<div class="workflow-definition-kicker">
+Step 6
+</div>
+<div class="workflow-definition-title">
+Select what belongs in the next version
+</div>
+<p>
+This is staging again — the same <code>git add</code> command as step 2. You are choosing which edits should go into the next commit.
+</p>
+</div>
+</div></div>
+</section>
+<section id="the-workflow-6" class="slide level2 center">
+<h2>The workflow</h2>
+<div class="columns">
+<div class="column" style="width:45%;">
+<div class="workflow-steps">
+<div class="workflow-step">
+<span class="workflow-step-number">1</span><span class="workflow-step-label">Initialise repository</span>
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">2</span><span class="workflow-step-label">Add files to the repository</span>
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">3</span><span class="workflow-step-label">Choose first commit contents</span>
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">4</span><span class="workflow-step-label">Make first commit</span>
+</div>
+<div class="workflow-step-gap">
+
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">5</span><span class="workflow-step-label">Edit a file</span>
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">6</span><span class="workflow-step-label">Choose which changes to commit</span>
+</div>
+<div class="workflow-step active">
+<span class="workflow-step-number">7</span><span class="workflow-step-label">Commit again</span>
+</div>
+<div class="workflow-step-gap">
+
+</div>
+<div class="workflow-step workflow-step-repeat">
+<span class="workflow-step-number">…</span><span class="workflow-step-label">Repeat</span>
+</div>
+</div>
+</div><div class="column" style="width:58%;">
+<div class="workflow-definition">
+<div class="workflow-definition-kicker">
+Step 7
+</div>
+<div class="workflow-definition-title">
+Save the next version and repeat
+</div>
+<p>
+Make another commit with a clear message. From that point on, the pattern is edit, choose, commit, repeat.
+</p>
+</div>
+</div></div>
+</section>
+<section id="the-workflow-7" class="slide level2 center">
+<h2>The workflow</h2>
+<div class="columns">
+<div class="column" style="width:45%;">
+<div class="workflow-steps">
+<div class="workflow-step">
+<span class="workflow-step-number">1</span><span class="workflow-step-label">Initialise repository</span>
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">2</span><span class="workflow-step-label">Add files to the repository</span>
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">3</span><span class="workflow-step-label">Choose first commit contents</span>
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">4</span><span class="workflow-step-label">Make first commit</span>
+</div>
+<div class="workflow-step-gap">
+
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">5</span><span class="workflow-step-label">Edit a file</span>
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">6</span><span class="workflow-step-label">Choose which changes to commit</span>
+</div>
+<div class="workflow-step">
+<span class="workflow-step-number">7</span><span class="workflow-step-label">Commit again</span>
+</div>
+<div class="workflow-step-gap">
+
+</div>
+<div class="workflow-step active workflow-step-repeat">
+<span class="workflow-step-number">…</span><span class="workflow-step-label">Repeat</span>
+</div>
+</div>
+</div><div class="column" style="width:58%;">
+<div class="workflow-definition">
+<div class="workflow-definition-kicker">
+Step 7
+</div>
+<div class="workflow-definition-title">
+Save the next version and repeat
+</div>
+<p>
+Continue working, and repeat the process as needed.
+</p>
+</div>
+</div></div>
+</section>
+<section class="slide level2 center">
+
+<p>A commit gives you a saved version of your staged changes, together with its message, author, and timestamp.</p>
+<div class="center" style="text-align:center; margin: 0 auto; max-width: 80%; padding: 0px;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/annotated-history.png" class="quarto-figure quarto-figure-center" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+<ul>
+<li>Browse the timeline of saved versions.</li>
+<li>Compare exactly what changed between two points.</li>
+<li>Recover an earlier version safely if something goes wrong.</li>
+</ul>
+</section>
+<section id="demonstrationseeing-the-workflow-in-action" class="slide level2 sec demo-sec center" data-background-color="#1E7F71">
+<h2><span class="sec-kicker">DEMONSTRATION</span><span class="sec-title">Seeing the workflow in action</span></h2>
+</section>
+<section id="an-example-project" class="slide level2 center">
+<h2>An example project</h2>
+<p>We’ll work with synthetic data from an NHS inpatient mental health service.</p>
+<p>The example project includes a <code>README.md</code>, a <code>.gitignore</code>, one dataset in <code>data/</code>, and three scripts in <code>scripts/</code> that:</p>
+<div class="box" color="red">
+<ol type="1">
+<li>Import and clean the data (<code>scripts/clean.R</code>)</li>
+<li>Build a model to predict 30-day readmission (<code>scripts/model.R</code>)</li>
+<li>Plot the calibration slope (<code>scripts/plots.R</code>)</li>
+</ol>
+</div>
+<p>See the <code>example</code> folder on <a href="https://github.com/ewancarr/brc-git-workshop-2026/tree/main/example">GitHub</a> to download the files.</p>
+<p><span class="muted">Note: You do not need to understand the R code, or even run it.</span></p>
+</section>
+<section class="slide level2 center">
+
+<p>To begin, we’ll assume we have downloaded the <code>example/</code> project folder, which includes:</p>
+<dl>
+<dt><code>README.md</code></dt>
+<dd>
+A short description of the project
+</dd>
+<dt><code>scripts/clean.R</code></dt>
+<dd>
+The cleaning script
+</dd>
+<dt><code>data/admissions.csv</code></dt>
+<dd>
+The raw data, present locally but ignored by Git
+</dd>
+<dt><code>.gitignore</code></dt>
+<dd>
+Rules telling Git not to track <code>data/</code> or <code>outputs/</code>
+</dd>
+</dl>
+<p><br></p>
+<div class="box">
+<p>Our goal is to:</p>
+<ol type="1">
+<li>Put this project under version control; and</li>
+<li>Make two commits.</li>
+</ol>
+</div>
+</section>
+<section id="demo-1-initialise-and-first-commit" class="slide level2 center">
+<h2>Demo 1 · Initialise and first commit</h2>
+<div class="task-panel">
+<div class="task-item">
+Open GitHub Desktop
+</div>
+<div class="task-item">
+<strong>File → Add Local Repository</strong> → choose the <code>example/</code> folder
+</div>
+<div class="task-item">
+Click <strong>Create a Repository</strong> when prompted
+</div>
+<div class="task-item">
+All project files appear in the Changes panel and are selected for the first commit
+</div>
+<div class="task-item">
+Write commit message: <em>Initial commit: add admissions example project</em>
+</div>
+<div class="task-item">
+Click <strong>Commit to main</strong>
+</div>
+</div>
+</section>
+<section id="demo-1-make-a-change-and-commit-again" class="slide level2 center">
+<h2>Demo 1 · Make a change and commit again</h2>
+<div class="task-panel">
+<div class="task-item">
+Open <code>scripts/clean.R</code>, add a comment at the top, save
+</div>
+<div class="task-item">
+GitHub Desktop shows the change in the Changes panel
+</div>
+<div class="task-item">
+Click the file to show the <strong>diff</strong>
+</div>
+<div class="task-item">
+Write commit message: <em>Add comment to cleaning script</em>
+</div>
+<div class="task-item">
+Click <strong>Commit to main</strong>
+</div>
+</div>
+</section>
+<section id="demo-1-view-the-history" class="slide level2 center">
+<h2>Demo 1 · View the history</h2>
+<div class="task-panel">
+<div class="task-item">
+Click the <strong>History</strong> tab
+</div>
+<div class="task-item">
+Two commits are listed, with message, author, and timestamp
+</div>
+<div class="task-item">
+Click each commit to see exactly what changed
+</div>
+</div>
+</section>
+<section id="how-to-do-this-on-the-command-line" class="slide level2 center">
+<h2>How to do this on the command line?</h2>
+<p>Initialise, add, and commit:</p>
+<div style="font-size: 1.4em;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> init                        <span class="co"># Initialise the repository</span></span>
+<span id="cb2-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add .                       <span class="co"># Stage all files</span></span>
+<span id="cb2-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Initial commit"</span>  <span class="co"># Save the first snapshot</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Make a change to <code>scripts/clean.R</code>, then:</p>
+<div style="font-size: 1.4em;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> status                      <span class="co"># See what's changed</span></span>
+<span id="cb3-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> add scripts/clean.R         <span class="co"># Stage the changed file</span></span>
+<span id="cb3-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Add comment to cleaning script"</span></span>
+<span id="cb3-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> log <span class="at">--oneline</span>               <span class="co"># View the history</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="demonstrationgoing-online" class="slide level2 sec demo-sec center" data-background-color="#C24B40">
+<h2><span class="sec-kicker">DEMONSTRATION</span><span class="sec-title">Going online</span></h2>
+</section>
+<section id="going-online" class="slide level2 center">
+<h2>Going online</h2>
+<ul>
+<li><p>The repository we just created only lives on our computer.</p></li>
+<li><p>We can work entirely offline, committing changes and building up a history using Git.</p></li>
+<li><p>However, to share it with others, we need to connect it to a <strong>remote</strong> repository.</p></li>
+<li><p>We’re using GitHub, but there are several online hosting platforms for Git repositories (e.g.&nbsp;GitLab, Bitbucket).</p></li>
+</ul>
+</section>
+<section class="slide level2 center">
+
+<p>The remote repository is a linked copy of your local repository that is hosted online (e.g., GitHub).</p>
+
+<img data-src="images/local-remote.png" class="quarto-figure quarto-figure-center r-stretch"><p>Going online adds a shared copy of the repository. It does not replace the local one on your computer.</p>
+</section>
+<section id="connect-then-push" class="slide level2 center">
+<h2>Connect, then push</h2>
+<ol type="1">
+<li>Connect your local repository to the GitHub repository that will hold the online copy.</li>
+<li>Push your existing commits so GitHub receives that history and creates the remote copy.</li>
+<li>After that, future pushes update the same remote repository, and pulls bring those shared changes back to your computer.</li>
+</ol>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p>GitHub Desktop wraps this into a simple publish flow. The command line shows the same ideas as separate steps.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="signing-in-to-github" class="slide level2 center">
+<h2>Signing in to GitHub</h2>
+<h3 id="github-desktop">GitHub Desktop</h3>
+<p><em>Windows</em></p>
+<p><kbd>File</kbd> → <kbd>Options</kbd> → <kbd>Accounts</kbd></p>
+<p><em>Mac</em></p>
+<p><kbd>GitHub Desktop</kbd> → <kbd>Settings</kbd> → <kbd>Accounts</kbd></p>
+<h3 id="command-line">Command line</h3>
+<ul>
+<li><p>Use the GitHub command line client: <code>gh auth login</code></p></li>
+<li><p>Or follow GitHub’s <a href="https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent">SSH setup guide</a></p></li>
+</ul>
+<p><span class="muted">Full instructions are on the workshop setup page.</span></p>
+</section>
+<section id="demo-2-create-a-repository-on-github-and-connect-it" class="slide level2 center">
+<h2>Demo 2 · Create a repository on GitHub and connect it</h2>
+<div class="task-panel">
+<div class="task-item">
+Go to github.com → <strong>+</strong> → <strong>New repository</strong>
+</div>
+<div class="task-item">
+Name it <code>admissions-example</code>, set it to <strong>Private</strong>
+</div>
+<div class="task-item">
+Leave README, <code>.gitignore</code>, and licence unticked
+</div>
+<div class="task-item">
+Click <strong>Create repository</strong>
+</div>
+<div class="task-item">
+In GitHub Desktop, click <strong>Publish repository</strong> → confirm name → <strong>Publish</strong>
+</div>
+</div>
+</section>
+<section id="demo-2-the-magic-moment" class="slide level2 center">
+<h2>Demo 2 · The magic moment</h2>
+<div class="task-panel">
+<div class="task-item">
+Refresh the GitHub repository page
+</div>
+<div class="task-item">
+Files are listed, the README is rendered, and the commit history is visible
+</div>
+</div>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p>Your entire project is now on GitHub: files, history, and commit messages. Backed up, visible, and shareable.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="demo-2-one-more-commit-push-watch-it-arrive" class="slide level2 center">
+<h2>Demo 2 · One more commit → push → watch it arrive</h2>
+<div class="task-panel">
+<div class="task-item">
+Make a small edit to <code>README.md</code> locally and save
+</div>
+<div class="task-item">
+Commit the change
+</div>
+<div class="task-item">
+Click <strong>Push origin</strong>
+</div>
+<div class="task-item">
+Refresh GitHub and watch the new commit appear
+</div>
+</div>
+</section>
+<section id="mini-quiz" class="slide level2 sec center" data-background-color="#EA526F">
+<h2>🧠 Mini quiz</h2>
+</section>
+<section class="slide level2 center">
+
+
+<img data-src="images/mentimeter_qr_code.png" class="quarto-figure quarto-figure-center r-stretch" style="width:30.0%"><div style="text-align: center; margin-top: 0.5em;">
+<p><a href="https://www.menti.com/alrgybisqx9m"><code>menti.com/alrgybisqx9m</code></a></p>
+</div>
+</section>
+<section id="best-practices" class="slide level2 sec center" data-background-color="#28A7A7">
+<h2>Best practices</h2>
+</section>
+<section id="what-should-go-in-a-commit" class="slide level2 center">
+<h2>What should go in a commit?</h2>
+<ul>
+<li>A commit should represent <strong>one coherent change</strong>.</li>
+<li>Think “what did I just do?”, not “which file did I edit?”</li>
+<li>A single commit will often include changes across multiple files</li>
+</ul>
+<p><em>If you can describe the change in one sentence, it’s probably a good commit.</em></p>
+</section>
+<section id="writing-good-commit-messages" class="slide level2 center">
+<h2>Writing good commit messages</h2>
+<p>A commit message should explain what changed <strong>and why</strong>.</p>
+<div style="font-size: 1.5em; padding: 0.1em;">
+<pre><code>Short summary line describing what changed
+
+An optional longer description, explaining why it
+changed and adding any important details.</code></pre>
+</div>
+<p>The description should explain the problem being addressed, the approach taken, and any assumptions or trade-offs involved.</p>
+</section>
+<section class="slide level2 center">
+
+<div class="columns">
+<div class="column good-examples-column" style="width:80%;">
+<h3 id="good-examples">🚀 Good examples</h3>
+<div class="box" color="green">
+<p><strong>Add cross-validation to model pipeline</strong><br> <br></p>
+<p>Implements 5-fold CV for logistic regression model. This replaces the previous single train/test split to reduce variance in performance estimates.</p>
+</div>
+<div class="box" color="green">
+<p><strong>Check for missing values before model fitting</strong> <br><br></p>
+<p>Introduces a check to stop execution if key variables contain missing values. This prevents silent failures and unexpected model behaviour.</p>
+</div>
+</div><div class="column bad-examples-column" style="width:30%;">
+<h3 id="bad-examples">🔥 Bad examples</h3>
+<ul>
+<li><code>Monday's work</code></li>
+<li><code>Changes</code></li>
+<li><code>Update</code></li>
+<li><code>Final version</code></li>
+</ul>
+</div></div>
+</section>
+<section id="you-can-and-should-tell-git-to-ignore-some-files" class="slide level2 center">
+<h2>You can (and should) tell Git to ignore some files</h2>
+<p>Create a file <code>.gitignore</code> in the project folder. Use this file to omit files you don’t want under version control. For example:</p>
+<div style="font-size: 1.6em;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">data/</span>       <span class="co"># Ignore everything in 'data'</span></span>
+<span id="cb5-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">outputs/</span>    <span class="co"># and 'outputs'</span></span>
+<span id="cb5-3"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">.Rhistory</span>   <span class="co"># Ignore a specific file</span></span>
+<span id="cb5-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">.RData</span></span>
+<span id="cb5-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="ex">*.Rproj</span>     <span class="co"># Ignore any file ending in .Rproj</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ul>
+<li><strong>Yes:</strong> Scripts, code, READMEs, manuscript text, config files.</li>
+<li><strong>No:</strong> Raw or derived data, large outputs, model files, credentials, API keys</li>
+</ul>
+</section>
+<section class="slide level2 center">
+
+<div class="center" style="color: #8a001a; font-weight: 600; font-size: 2.2em; line-height: 1.6; text-align: center; max-width: 80%; margin: 0 auto;">
+<p>Never commit patient data.</p>
+</div>
+</section>
+<section class="slide level2 center">
+
+<p>Add any data folders (e.g., <code>data</code>) to your <code>.gitignore</code> file <strong>before</strong> any data files are added.</p>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Warning</strong></p>
+</div>
+<div class="callout-content">
+<p><strong>Once sensitive data is committed to a public repository, deleting the file later is not enough.</strong></p>
+<p>Git history can still contain the earlier version, so pushing first and deleting later does not undo the exposure.</p>
+</div>
+</div>
+</div>
+</section>
+<section class="slide level2 center">
+
+<h3 id="march-2026">March 2026:</h3>
+<p>Researchers using UK Biobank data committed data folders locally, pushed them to GitHub, and then exposed them publicly.</p>
+
+<img data-src="images/guardian-breach.png" class="quarto-figure quarto-figure-center r-stretch" style="width:100.0%"></section>
+<section id="branches" class="slide level2 sec center" data-background-color="#2D3561">
+<h2>Branches</h2>
+</section>
+<section class="slide level2 center">
+
+<p>A branch is a separate line of work within the same repository.</p>
+<p>Until now, we’ve been thinking about a single history. This is usually called the <code>main</code> branch.</p>
+
+<img data-src="images/branching/single-branch.png" class="quarto-figure quarto-figure-center r-stretch" style="width:82.0%"></section>
+<section class="slide level2 center">
+
+<p>Git lets us have multiple branches:</p>
+
+<img data-src="images/branching/two-branches.png" class="quarto-figure quarto-figure-center r-stretch"></section>
+<section id="why-use-branches" class="slide level2 center">
+<h2>Why use branches?</h2>
+<ul>
+<li>They let you try something new without changing the version you already trust</li>
+<li>They let you prepare work for review before it reaches <code>main</code></li>
+<li>In collaborative projects, they let people work on different things without all editing the same branch</li>
+</ul>
+</section>
+<section id="how-first-create-and-switch-to-a-new-branch" class="slide level2 center">
+<h2>How? First, create and switch to a new branch</h2>
+<p>On the command line, use <code>git switch -c</code> to create a new branch and move to it immediately. Here, I’ve named the branch <code>add-figure-2</code>:</p>
+<div style="font-size: 1.6em;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> switch <span class="at">-c</span> add-figure-2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+
+<img data-src="images/branching/branching-flow-1.png" class="quarto-figure quarto-figure-center r-stretch" style="width:100.0%"></section>
+<section class="slide level2 center">
+
+<p>On GitHub Desktop, choose <kbd>Branch</kbd>→<kbd>New Branch…</kbd></p>
+
+<img data-src="images/new-branch-github-desktop.png" class="quarto-figure quarto-figure-center r-stretch"><p>Note that new commits now go on that branch, not <code>main</code>.</p>
+</section>
+<section id="when-you-switch-branches-your-files-switch-too" class="slide level2 center">
+<h2>When you switch branches, your files switch too</h2>
+
+<img data-src="images/branching/branching-flow-2.png" class="quarto-figure quarto-figure-center r-stretch" style="width:100.0%"><ul>
+<li>Git updates your working directory to match the branch you switched to.</li>
+<li>Your work on the other branch is still there in its commits.</li>
+<li>To go back, switch back:</li>
+</ul>
+<div style="font-size: 1.6em;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> switch main</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="when-youre-done-delete-or-merge-back" class="slide level2 center">
+<h2>When you’re done, delete or merge back</h2>
+<div class="center">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="images/branching/branching-flow-3.png" class="quarto-figure quarto-figure-center" style="width:70.0%"></p>
+</figure>
+</div>
+</div>
+<h3 id="branches-are-a-safe-place-to-experiment">Branches are a safe place to experiment</h3>
+<ul>
+<li><p>If it works, you can <strong>merge</strong> it back into the main branch. Merging means bringing the commits from that branch into the main line of the project</p></li>
+<li><p>If not, you <strong>delete</strong> the branch and continue on main.</p></li>
+</ul>
+</section>
+<section id="demonstration-switch-to-a-branch-and-back-again" class="slide level2 center">
+<h2>Demonstration · Switch to a branch and back again</h2>
+<div class="task-panel">
+<div class="task-item">
+Start on <strong>main</strong>
+</div>
+<div class="task-item">
+Create and switch: <code>git switch -c add-readme-note</code>
+</div>
+<div class="task-item">
+Edit <code>README.md</code>, save, and commit the change
+</div>
+<div class="task-item">
+Switch back: <code>git switch main</code>
+</div>
+<div class="task-item">
+The working directory returns to the <strong>main</strong> version
+</div>
+<div class="task-item">
+Switch again: <code>git switch add-readme-note</code>
+</div>
+<div class="task-item">
+The committed edit reappears
+</div>
+</div>
+</section>
+<section id="collaboration" class="slide level2 sec center" data-background-color="#6B4E9B">
+<h2>Collaboration</h2>
+</section>
+<section id="how-collaboration-works" class="slide level2 center">
+<h2>How collaboration works</h2>
+<ul>
+<li>A shared repository lives on GitHub (the <strong>hub</strong>)</li>
+<li>Each person has their own local copy</li>
+<li>Work flows like this:
+<ul>
+<li><strong>Pull</strong>: get the latest changes from GitHub</li>
+<li><strong>Edit</strong>: make changes locally</li>
+<li><strong>Push</strong>: send your changes back to GitHub</li>
+</ul></li>
+</ul>
+<p>GitHub is the single source of truth.</p>
+</section>
+<section class="slide level2 center">
+
+
+<img data-src="images/hub-spoke-alt.png" class="quarto-figure quarto-figure-center r-stretch" data-fig-width="78%"></section>
+<section id="when-collaborating-use-feature-branches" class="slide level2 center">
+<h2>When collaborating, use feature branches</h2>
+<p>Never work directly on <code>main</code> — create a <strong>feature branch</strong> for each piece of work.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<h3 id="example-branch-names">Example branch names</h3>
+<ul>
+<li><code>cleaning-fix-missing-values</code></li>
+<li><code>add-figure-2</code></li>
+<li><code>update-inclusion-criteria</code></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<h3 id="why">Why?</h3>
+<ul>
+<li>Keeps <code>main</code> stable</li>
+<li>Lets you work safely without breaking anything</li>
+<li>Makes it easier to review changes</li>
+</ul>
+</div></div>
+</section>
+<section id="how-changes-get-into-main" class="slide level2 center">
+<h2>How changes get into <code>main</code></h2>
+<ol type="1">
+<li>Create a feature branch</li>
+<li>Make your changes</li>
+<li>Commit your work</li>
+<li>Push the branch to GitHub</li>
+<li>Open a <strong>Pull Request (PR)</strong></li>
+</ol>
+</section>
+<section id="what-is-a-pr" class="slide level2 center">
+<h2>What is a PR?</h2>
+<ul>
+<li>A request to merge your changes into <code>main</code></li>
+<li>Others can:
+<ul>
+<li>Review your code</li>
+<li>Suggest changes</li>
+<li>Approve and merge</li>
+</ul></li>
+</ul>
+</section>
+<section id="a-simple-workflow-to-follow" class="slide level2 center">
+<h2>A simple workflow to follow</h2>
+<p>When you start work:</p>
+<ol type="1">
+<li>Pull the latest version of <code>main</code></li>
+<li>Create a new feature branch</li>
+</ol>
+<p>While working:</p>
+<ol start="3" type="1">
+<li>Make small commits with clear messages</li>
+</ol>
+<p>When finished:</p>
+<ol start="4" type="1">
+<li>Push your branch to GitHub</li>
+<li>Open a Pull Request</li>
+<li>Get it reviewed and merged</li>
+</ol>
+</section>
+<section class="slide level2 center">
+
+<h3 id="golden-rules">Golden rules:</h3>
+<ul>
+<li>Pull before you start</li>
+<li>Don’t work on <code>main</code></li>
+<li>Keep changes small and focused</li>
+</ul>
+</section>
+<section id="forks-let-you-contribute-without-write-access" class="slide level2 center">
+<h2>Forks let you contribute without write access</h2>
+<ul>
+<li>A fork is your own GitHub copy of someone else’s repository</li>
+<li>You only need this when you cannot push directly to the original repository</li>
+<li>You clone your fork, make the change, push to your fork, and then open a pull request back to the original repository</li>
+<li>This is the workflow we will use in the collaborative exercise</li>
+</ul>
+</section>
+<section id="where-to-go-next" class="slide level2 center">
+<h2>Where to go next</h2>
+<dl>
+<dt><a href="https://happygitwithr.com">Happy Git with R</a></dt>
+<dd>
+Git, GitHub, and RStudio — the best starting point for R users.
+</dd>
+<dt><a href="https://git-scm.com/book/en/v2">Pro Git</a></dt>
+<dd>
+The definitive Git reference, free online.
+</dd>
+<dt><a href="https://swcarpentry.github.io/git-novice/">Software Carpentry: Version Control with Git</a></dt>
+<dd>
+A self-paced hands-on lesson for researchers.
+</dd>
+<dt><a href="https://ohshitgit.com">Oh Shit, Git!?</a></dt>
+<dd>
+Plain-English fixes for common mistakes.
+</dd>
+<dt><a href="https://www.tandfonline.com/doi/full/10.1080/00031305.2017.1399928">Excuse me, do you have a moment to talk about version control?</a></dt>
+<dd>
+Bryan (2018) — the academic case for version control in research.
+</dd>
+</dl>
+</section>
+<section class="slide level2 center">
+
+<div class="center" style="font-size: 2.4em; font-weight: 600; text-align: center;">
+<p>5-minute break</p>
+</div>
+</section>
+<section id="exercises" class="slide level2 center">
+<h2>Exercises</h2>
+<div style="font-size:1.3em;">
+<ol start="0" type="1">
+<li>Check your setup</li>
+<li>Your first local repository</li>
+<li>Push to GitHub</li>
+<li>Make a change and push again</li>
+<li>Add your name to a shared repository</li>
+</ol>
+</div>
+<div style="text-align: center; margin-top: 0.5em; font-size: 1.8em;">
+<p><a href="https://tinyurl.com/brc-git-github"><code>tinyurl.com/brc-git-github</code></a></p>
+</div>
+</section>
+<section id="appendix-first-time-setup" class="slide level2 sec center" data-background-color="#C24B40">
+<h2>Appendix: First-time setup</h2>
+</section>
+<section id="git-config-three-lines-to-run-once" class="slide level2 center">
+<h2><code>git config</code> — three lines to run once</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> user.name <span class="st">"Your Name"</span></span>
+<span id="cb8-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> user.email <span class="st">"you@example.com"</span></span>
+<span id="cb8-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> config <span class="at">--global</span> init.defaultBranch main</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<dl>
+<dt><code>user.name</code> / <code>user.email</code></dt>
+<dd>
+Your identity on every commit
+</dd>
+<dt><code>init.defaultBranch</code></dt>
+<dd>
+Optional hygiene: use <code>main</code> instead of the old <code>master</code> default when you create new repositories from the command line
+</dd>
+</dl>
+<p>GitHub Desktop usually sets the important parts for you. These commands are mainly for command-line users who want Git configured explicitly.</p>
+</section>
+<section id="where-does-.gitconfig-live" class="slide level2 center">
+<h2>Where does <code>.gitconfig</code> live?</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Platform</th>
+<th>Location</th>
+<th>How to open</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Mac</strong></td>
+<td><code>~/.gitconfig</code></td>
+<td><code>open ~/.gitconfig</code> or any text editor</td>
+</tr>
+<tr class="even">
+<td><strong>Windows</strong></td>
+<td><code>C:\Users\YourName\.gitconfig</code></td>
+<td>Notepad, VS Code, or <code>notepad $HOME\.gitconfig</code> in PowerShell</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p><code>.gitconfig</code> is a hidden file. To show it: <strong>Mac</strong> — <code>Cmd+Shift+.</code> in Finder <strong>Windows</strong> — View → Show → Hidden items</p>
+</div>
+</div>
+</div>
+<p>You can edit it directly in a text editor, or use <code>git config --global</code> commands. Both do the same thing.</p>
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="slides_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="slides_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="slides_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="slides_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'fade',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'fast',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1280,
+
+        height: 720,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var t = document.querySelector('#title-slide h1.title');
+      if (t) {
+        t.innerHTML = t.innerHTML.replace(
+          ' (but haven\u2019t yet)',
+          '<br><span style="display:inline-block">(but haven\u2019t yet)</span>'
+        );
+      }
+    });
+    </script>
+    
+
+</body></html>
