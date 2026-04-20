@@ -1,0 +1,534 @@
+[
+  {
+    "objectID": "slides/slides.html#today",
+    "href": "slides/slides.html#today",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "Today",
+    "text": "Today\n\n\n\n\nThree practical goals\n\n\n\n\n1\n\n\nA clear mental model of Git\nWhat it is, what a repository is, and how GitHub fits in.\n\n\n\n\n2\n\n\nYour first repository\nHow to start tracking a project without making the workflow feel mysterious.\n\n\n\n\n3\n\n\nA real commit pushed to GitHub\nEnough confidence to try this on your own work.\n\n\n\n\n\n\n\nSchedule\n\n\n\n14:00–15:00\n\n\nConcepts and demonstrations\n\n\nBuild the core ideas first, then watch the workflow happen end to end.\n\n\n\n\n15:00–16:00\n\n\nPractice\n\n\nMake a repository, commit changes, and try the workflow yourself."
+  },
+  {
+    "objectID": "slides/slides.html#the-problem-were-trying-to-solve",
+    "href": "slides/slides.html#the-problem-were-trying-to-solve",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "The problem we’re trying to solve",
+    "text": "The problem we’re trying to solve"
+  },
+  {
+    "objectID": "slides/slides.html#problem-1-file-names-as-versions",
+    "href": "slides/slides.html#problem-1-file-names-as-versions",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "Problem 1: File names as versions",
+    "text": "Problem 1: File names as versions\n\n\n\n\n\n\n\n\nanalysis_final_v4_Ewan.R\ndata-cleaning-March-3rd_new.py\ndata-cleaning-THIS_ONE_WORKS.R\n\nDoesn’t scale well.\nNo record of what changed or why.\nHard to get back to the exact version you need."
+  },
+  {
+    "objectID": "slides/slides.html#problem-2-collaborating-on-code",
+    "href": "slides/slides.html#problem-2-collaborating-on-code",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "Problem 2: Collaborating on code",
+    "text": "Problem 2: Collaborating on code\n\n\n\n\n\n\n\n\n\nYou email a script to a colleague.\nYou both edit it separately.\nNow there are two diverging versions.\nNo easy way to see the differences or combine the edits."
+  },
+  {
+    "objectID": "slides/slides.html#why-is-this-a-problem",
+    "href": "slides/slides.html#why-is-this-a-problem",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "Why is this a problem?",
+    "text": "Why is this a problem?\n\n\n\nIt undermines reproducibility. With multiple versions, it becomes hard to know which file produced which result.\nIt is fragile and chaotic.\nIt is hard to see the history of a file.\nWhy did we change the cleaning rule or drop those cases?\nTwo people edited the same file. What changed, and how do we combine it?\n\n\n\n\n\n\n\n\nWe need a better way."
+  },
+  {
+    "objectID": "slides/slides.html#what-is-git",
+    "href": "slides/slides.html#what-is-git",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "What is Git?",
+    "text": "What is Git?"
+  },
+  {
+    "objectID": "slides/slides.html#how-you-interact-with-git",
+    "href": "slides/slides.html#how-you-interact-with-git",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "How you interact with Git",
+    "text": "How you interact with Git\n\nThrough the command line\n\n\ngit init\ngit add cleaning.R\ngit commit -m \"Add initial cleaning script\"\n\n\nThrough a graphical client (e.g., GitHub Desktop, Tower)\n\nDifferent interfaces, but doing the same thing underneath."
+  },
+  {
+    "objectID": "slides/slides.html#local-vs.-remote-repositories",
+    "href": "slides/slides.html#local-vs.-remote-repositories",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "Local vs. remote repositories",
+    "text": "Local vs. remote repositories\n\nLocal repository\n\nThe working copy on your computer. You can edit files and make commits offline.\n\nRemote repository\n\nA linked copy hosted online (e.g., GitHub), containing the complete history of your repository.\n\n\nWe can send and receive changes from the remote. This is referred to as “pushing” and “pulling”."
+  },
+  {
+    "objectID": "slides/slides.html#three-reasons-to-use-git",
+    "href": "slides/slides.html#three-reasons-to-use-git",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "Three reasons to use Git",
+    "text": "Three reasons to use Git"
+  },
+  {
+    "objectID": "slides/slides.html#key-concepts",
+    "href": "slides/slides.html#key-concepts",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "Key concepts",
+    "text": "Key concepts"
+  },
+  {
+    "objectID": "slides/slides.html#four-key-terms",
+    "href": "slides/slides.html#four-key-terms",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "Four key terms",
+    "text": "Four key terms\n\n\n\nRepository\n\nYour project folder plus its recorded history.\n\n\n\nTracked / untracked\n\nA file is untracked until you tell Git to watch it. After that, Git treats it as tracked.\n\n\n\nStaging\n\nStaging means choosing which tracked changes should go into the next commit.\n\n\n\nCommit\n\nA commit is a saved snapshot of the staged changes at one point in time."
+  },
+  {
+    "objectID": "slides/slides.html#how-git-thinks-about-your-files",
+    "href": "slides/slides.html#how-git-thinks-about-your-files",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "How Git thinks about your files",
+    "text": "How Git thinks about your files\n\nA file can sit in your project folder without being part of the repository yet\nGit calls that file untracked\nWhen you tell Git to watch it, the file becomes tracked\nThe hidden .git folder stores the repository history inside the project folder"
+  },
+  {
+    "objectID": "slides/slides.html#the-workflow",
+    "href": "slides/slides.html#the-workflow",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "The workflow",
+    "text": "The workflow\n\n\n\n\n1Initialise repository\n\n\n2Add files to the repository\n\n\n3Choose first commit contents\n\n\n4Make first commit\n\n\n\n\n\n5Edit a file\n\n\n6Choose which changes to commit\n\n\n7Commit again\n\n\n\n\n\n…Repeat\n\n\n\n\n\nStep 1\n\n\nStart the repository\n\n\nGit creates the hidden .git folder inside your project. Your files stay where they are."
+  },
+  {
+    "objectID": "slides/slides.html#the-workflow-1",
+    "href": "slides/slides.html#the-workflow-1",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "The workflow",
+    "text": "The workflow\n\n\n\n\n1Initialise repository\n\n\n2Add files to the repository\n\n\n3Choose first commit contents\n\n\n4Make first commit\n\n\n\n\n\n5Edit a file\n\n\n6Choose which changes to commit\n\n\n7Commit again\n\n\n\n\n\n…Repeat\n\n\n\n\n\nStep 2\n\n\nTell Git which files belong in the repository\n\n\nThe files are already in your folder. This step tells Git to start tracking them."
+  },
+  {
+    "objectID": "slides/slides.html#the-workflow-2",
+    "href": "slides/slides.html#the-workflow-2",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "The workflow",
+    "text": "The workflow\n\n\n\n\n1Initialise repository\n\n\n2Add files to the repository\n\n\n3Choose first commit contents\n\n\n4Make first commit\n\n\n\n\n\n5Edit a file\n\n\n6Choose which changes to commit\n\n\n7Commit again\n\n\n\n\n\n…Repeat\n\n\n\n\n\nStep 3\n\n\nChoose what goes into the first commit\n\n\nGit calls this staging. You are choosing which tracked files should go into the next commit."
+  },
+  {
+    "objectID": "slides/slides.html#the-workflow-3",
+    "href": "slides/slides.html#the-workflow-3",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "The workflow",
+    "text": "The workflow\n\n\n\n\n1Initialise repository\n\n\n2Add files to the repository\n\n\n3Choose first commit contents\n\n\n4Make first commit\n\n\n\n\n\n5Edit a file\n\n\n6Choose which changes to commit\n\n\n7Commit again\n\n\n\n\n\n…Repeat\n\n\n\n\n\nStep 4\n\n\nSave the first version\n\n\nYour first commit gives the repository a starting point and a message explaining what it contains."
+  },
+  {
+    "objectID": "slides/slides.html#the-workflow-4",
+    "href": "slides/slides.html#the-workflow-4",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "The workflow",
+    "text": "The workflow\n\n\n\n\n1Initialise repository\n\n\n2Add files to the repository\n\n\n3Choose first commit contents\n\n\n4Make first commit\n\n\n\n\n\n5Edit a file\n\n\n6Choose which changes to commit\n\n\n7Commit again\n\n\n\n\n\n…Repeat\n\n\n\n\n\nStep 5\n\n\nWork normally\n\n\nEdit a tracked file and save it on your computer. Git notices the change and waits for you to decide what to do next."
+  },
+  {
+    "objectID": "slides/slides.html#the-workflow-5",
+    "href": "slides/slides.html#the-workflow-5",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "The workflow",
+    "text": "The workflow\n\n\n\n\n1Initialise repository\n\n\n2Add files to the repository\n\n\n3Choose first commit contents\n\n\n4Make first commit\n\n\n\n\n\n5Edit a file\n\n\n6Choose which changes to commit\n\n\n7Commit again\n\n\n\n\n\n…Repeat\n\n\n\n\n\nStep 6\n\n\nSelect what belongs in the next version\n\n\nThis is staging again — the same git add command as step 2. You are choosing which edits should go into the next commit."
+  },
+  {
+    "objectID": "slides/slides.html#the-workflow-6",
+    "href": "slides/slides.html#the-workflow-6",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "The workflow",
+    "text": "The workflow\n\n\n\n\n1Initialise repository\n\n\n2Add files to the repository\n\n\n3Choose first commit contents\n\n\n4Make first commit\n\n\n\n\n\n5Edit a file\n\n\n6Choose which changes to commit\n\n\n7Commit again\n\n\n\n\n\n…Repeat\n\n\n\n\n\nStep 7\n\n\nSave the next version and repeat\n\n\nMake another commit with a clear message. From that point on, the pattern is edit, choose, commit, repeat."
+  },
+  {
+    "objectID": "slides/slides.html#the-workflow-7",
+    "href": "slides/slides.html#the-workflow-7",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "The workflow",
+    "text": "The workflow\n\n\n\n\n1Initialise repository\n\n\n2Add files to the repository\n\n\n3Choose first commit contents\n\n\n4Make first commit\n\n\n\n\n\n5Edit a file\n\n\n6Choose which changes to commit\n\n\n7Commit again\n\n\n\n\n\n…Repeat\n\n\n\n\n\nStep 7\n\n\nSave the next version and repeat\n\n\nContinue working, and repeat the process as needed."
+  },
+  {
+    "objectID": "slides/slides.html#demonstrationseeing-the-workflow-in-action",
+    "href": "slides/slides.html#demonstrationseeing-the-workflow-in-action",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "DEMONSTRATIONSeeing the workflow in action",
+    "text": "DEMONSTRATIONSeeing the workflow in action"
+  },
+  {
+    "objectID": "slides/slides.html#an-example-project",
+    "href": "slides/slides.html#an-example-project",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "An example project",
+    "text": "An example project\nWe’ll work with synthetic data from an NHS inpatient mental health service.\nThe example project includes a README.md, a .gitignore, one dataset in data/, and three scripts in scripts/ that:\n\n\nImport and clean the data (scripts/clean.R)\nBuild a model to predict 30-day readmission (scripts/model.R)\nPlot the calibration slope (scripts/plots.R)\n\n\nSee the example folder on GitHub to download the files.\nNote: You do not need to understand the R code, or even run it."
+  },
+  {
+    "objectID": "slides/slides.html#demo-1-initialise-and-first-commit",
+    "href": "slides/slides.html#demo-1-initialise-and-first-commit",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "Demo 1 · Initialise and first commit",
+    "text": "Demo 1 · Initialise and first commit\n\n\nOpen GitHub Desktop\n\n\nFile → Add Local Repository → choose the example/ folder\n\n\nClick Create a Repository when prompted\n\n\nAll project files appear in the Changes panel and are selected for the first commit\n\n\nWrite commit message: Initial commit: add admissions example project\n\n\nClick Commit to main"
+  },
+  {
+    "objectID": "slides/slides.html#demo-1-make-a-change-and-commit-again",
+    "href": "slides/slides.html#demo-1-make-a-change-and-commit-again",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "Demo 1 · Make a change and commit again",
+    "text": "Demo 1 · Make a change and commit again\n\n\nOpen scripts/clean.R, add a comment at the top, save\n\n\nGitHub Desktop shows the change in the Changes panel\n\n\nClick the file to show the diff\n\n\nWrite commit message: Add comment to cleaning script\n\n\nClick Commit to main"
+  },
+  {
+    "objectID": "slides/slides.html#demo-1-view-the-history",
+    "href": "slides/slides.html#demo-1-view-the-history",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "Demo 1 · View the history",
+    "text": "Demo 1 · View the history\n\n\nClick the History tab\n\n\nTwo commits are listed, with message, author, and timestamp\n\n\nClick each commit to see exactly what changed"
+  },
+  {
+    "objectID": "slides/slides.html#how-to-do-this-on-the-command-line",
+    "href": "slides/slides.html#how-to-do-this-on-the-command-line",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "How to do this on the command line?",
+    "text": "How to do this on the command line?\nInitialise, add, and commit:\n\ngit init                        # Initialise the repository\ngit add .                       # Stage all files\ngit commit -m \"Initial commit\"  # Save the first snapshot\n\nMake a change to scripts/clean.R, then:\n\ngit status                      # See what's changed\ngit add scripts/clean.R         # Stage the changed file\ngit commit -m \"Add comment to cleaning script\"\ngit log --oneline               # View the history"
+  },
+  {
+    "objectID": "slides/slides.html#demonstrationgoing-online",
+    "href": "slides/slides.html#demonstrationgoing-online",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "DEMONSTRATIONGoing online",
+    "text": "DEMONSTRATIONGoing online"
+  },
+  {
+    "objectID": "slides/slides.html#going-online",
+    "href": "slides/slides.html#going-online",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "Going online",
+    "text": "Going online\n\nThe repository we just created only lives on our computer.\nWe can work entirely offline, committing changes and building up a history using Git.\nHowever, to share it with others, we need to connect it to a remote repository.\nWe’re using GitHub, but there are several online hosting platforms for Git repositories (e.g. GitLab, Bitbucket)."
+  },
+  {
+    "objectID": "slides/slides.html#connect-then-push",
+    "href": "slides/slides.html#connect-then-push",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "Connect, then push",
+    "text": "Connect, then push\n\nConnect your local repository to the GitHub repository that will hold the online copy.\nPush your existing commits so GitHub receives that history and creates the remote copy.\nAfter that, future pushes update the same remote repository, and pulls bring those shared changes back to your computer.\n\n\n\n\n\n\n\nTip\n\n\nGitHub Desktop wraps this into a simple publish flow. The command line shows the same ideas as separate steps."
+  },
+  {
+    "objectID": "slides/slides.html#signing-in-to-github",
+    "href": "slides/slides.html#signing-in-to-github",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "Signing in to GitHub",
+    "text": "Signing in to GitHub\nGitHub Desktop\nWindows\nFile → Options → Accounts\nMac\nGitHub Desktop → Settings → Accounts\nCommand line\n\nUse the GitHub command line client: gh auth login\nOr follow GitHub’s SSH setup guide\n\nFull instructions are on the workshop setup page."
+  },
+  {
+    "objectID": "slides/slides.html#demo-2-create-a-repository-on-github-and-connect-it",
+    "href": "slides/slides.html#demo-2-create-a-repository-on-github-and-connect-it",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "Demo 2 · Create a repository on GitHub and connect it",
+    "text": "Demo 2 · Create a repository on GitHub and connect it\n\n\nGo to github.com → + → New repository\n\n\nName it admissions-example, set it to Private\n\n\nLeave README, .gitignore, and licence unticked\n\n\nClick Create repository\n\n\nIn GitHub Desktop, click Publish repository → confirm name → Publish"
+  },
+  {
+    "objectID": "slides/slides.html#demo-2-the-magic-moment",
+    "href": "slides/slides.html#demo-2-the-magic-moment",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "Demo 2 · The magic moment",
+    "text": "Demo 2 · The magic moment\n\n\nRefresh the GitHub repository page\n\n\nFiles are listed, the README is rendered, and the commit history is visible\n\n\n\n\n\n\n\n\nTip\n\n\nYour entire project is now on GitHub: files, history, and commit messages. Backed up, visible, and shareable."
+  },
+  {
+    "objectID": "slides/slides.html#demo-2-one-more-commit-push-watch-it-arrive",
+    "href": "slides/slides.html#demo-2-one-more-commit-push-watch-it-arrive",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "Demo 2 · One more commit → push → watch it arrive",
+    "text": "Demo 2 · One more commit → push → watch it arrive\n\n\nMake a small edit to README.md locally and save\n\n\nCommit the change\n\n\nClick Push origin\n\n\nRefresh GitHub and watch the new commit appear"
+  },
+  {
+    "objectID": "slides/slides.html#mini-quiz",
+    "href": "slides/slides.html#mini-quiz",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "🧠 Mini quiz",
+    "text": "🧠 Mini quiz"
+  },
+  {
+    "objectID": "slides/slides.html#best-practices",
+    "href": "slides/slides.html#best-practices",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "Best practices",
+    "text": "Best practices"
+  },
+  {
+    "objectID": "slides/slides.html#what-should-go-in-a-commit",
+    "href": "slides/slides.html#what-should-go-in-a-commit",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "What should go in a commit?",
+    "text": "What should go in a commit?\n\nA commit should represent one coherent change.\nThink “what did I just do?”, not “which file did I edit?”\nA single commit will often include changes across multiple files\n\nIf you can describe the change in one sentence, it’s probably a good commit."
+  },
+  {
+    "objectID": "slides/slides.html#writing-good-commit-messages",
+    "href": "slides/slides.html#writing-good-commit-messages",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "Writing good commit messages",
+    "text": "Writing good commit messages\nA commit message should explain what changed and why.\n\nShort summary line describing what changed\n\nAn optional longer description, explaining why it\nchanged and adding any important details.\n\nThe description should explain the problem being addressed, the approach taken, and any assumptions or trade-offs involved."
+  },
+  {
+    "objectID": "slides/slides.html#you-can-and-should-tell-git-to-ignore-some-files",
+    "href": "slides/slides.html#you-can-and-should-tell-git-to-ignore-some-files",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "You can (and should) tell Git to ignore some files",
+    "text": "You can (and should) tell Git to ignore some files\nCreate a file .gitignore in the project folder. Use this file to omit files you don’t want under version control. For example:\n\ndata/       # Ignore everything in 'data'\noutputs/    # and 'outputs'\n\n.Rhistory   # Ignore a specific file\n.RData\n*.Rproj     # Ignore any file ending in .Rproj\n\n\nYes: Scripts, code, READMEs, manuscript text, config files.\nNo: Raw or derived data, large outputs, model files, credentials, API keys"
+  },
+  {
+    "objectID": "slides/slides.html#branches",
+    "href": "slides/slides.html#branches",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "Branches",
+    "text": "Branches"
+  },
+  {
+    "objectID": "slides/slides.html#why-use-branches",
+    "href": "slides/slides.html#why-use-branches",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "Why use branches?",
+    "text": "Why use branches?\n\nThey let you try something new without changing the version you already trust\nThey let you prepare work for review before it reaches main\nIn collaborative projects, they let people work on different things without all editing the same branch"
+  },
+  {
+    "objectID": "slides/slides.html#how-first-create-and-switch-to-a-new-branch",
+    "href": "slides/slides.html#how-first-create-and-switch-to-a-new-branch",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "How? First, create and switch to a new branch",
+    "text": "How? First, create and switch to a new branch\nOn the command line, use git switch -c to create a new branch and move to it immediately. Here, I’ve named the branch add-figure-2:\n\ngit switch -c add-figure-2"
+  },
+  {
+    "objectID": "slides/slides.html#when-you-switch-branches-your-files-switch-too",
+    "href": "slides/slides.html#when-you-switch-branches-your-files-switch-too",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "When you switch branches, your files switch too",
+    "text": "When you switch branches, your files switch too\n\n\nGit updates your working directory to match the branch you switched to.\nYour work on the other branch is still there in its commits.\nTo go back, switch back:\n\n\ngit switch main"
+  },
+  {
+    "objectID": "slides/slides.html#when-youre-done-delete-or-merge-back",
+    "href": "slides/slides.html#when-youre-done-delete-or-merge-back",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "When you’re done, delete or merge back",
+    "text": "When you’re done, delete or merge back\n\n\n\n\n\n\n\nBranches are a safe place to experiment\n\nIf it works, you can merge it back into the main branch. Merging means bringing the commits from that branch into the main line of the project\nIf not, you delete the branch and continue on main."
+  },
+  {
+    "objectID": "slides/slides.html#demonstration-switch-to-a-branch-and-back-again",
+    "href": "slides/slides.html#demonstration-switch-to-a-branch-and-back-again",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "Demonstration · Switch to a branch and back again",
+    "text": "Demonstration · Switch to a branch and back again\n\n\nStart on main\n\n\nCreate and switch: git switch -c add-readme-note\n\n\nEdit README.md, save, and commit the change\n\n\nSwitch back: git switch main\n\n\nThe working directory returns to the main version\n\n\nSwitch again: git switch add-readme-note\n\n\nThe committed edit reappears"
+  },
+  {
+    "objectID": "slides/slides.html#collaboration",
+    "href": "slides/slides.html#collaboration",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "Collaboration",
+    "text": "Collaboration"
+  },
+  {
+    "objectID": "slides/slides.html#how-collaboration-works",
+    "href": "slides/slides.html#how-collaboration-works",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "How collaboration works",
+    "text": "How collaboration works\n\nA shared repository lives on GitHub (the hub)\nEach person has their own local copy\nWork flows like this:\n\nPull: get the latest changes from GitHub\nEdit: make changes locally\nPush: send your changes back to GitHub\n\n\nGitHub is the single source of truth."
+  },
+  {
+    "objectID": "slides/slides.html#when-collaborating-use-feature-branches",
+    "href": "slides/slides.html#when-collaborating-use-feature-branches",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "When collaborating, use feature branches",
+    "text": "When collaborating, use feature branches\nNever work directly on main — create a feature branch for each piece of work.\n\n\nExample branch names\n\ncleaning-fix-missing-values\nadd-figure-2\nupdate-inclusion-criteria\n\n\nWhy?\n\nKeeps main stable\nLets you work safely without breaking anything\nMakes it easier to review changes"
+  },
+  {
+    "objectID": "slides/slides.html#how-changes-get-into-main",
+    "href": "slides/slides.html#how-changes-get-into-main",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "How changes get into main",
+    "text": "How changes get into main\n\nCreate a feature branch\nMake your changes\nCommit your work\nPush the branch to GitHub\nOpen a Pull Request (PR)"
+  },
+  {
+    "objectID": "slides/slides.html#what-is-a-pr",
+    "href": "slides/slides.html#what-is-a-pr",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "What is a PR?",
+    "text": "What is a PR?\n\nA request to merge your changes into main\nOthers can:\n\nReview your code\nSuggest changes\nApprove and merge"
+  },
+  {
+    "objectID": "slides/slides.html#a-simple-workflow-to-follow",
+    "href": "slides/slides.html#a-simple-workflow-to-follow",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "A simple workflow to follow",
+    "text": "A simple workflow to follow\nWhen you start work:\n\nPull the latest version of main\nCreate a new feature branch\n\nWhile working:\n\nMake small commits with clear messages\n\nWhen finished:\n\nPush your branch to GitHub\nOpen a Pull Request\nGet it reviewed and merged"
+  },
+  {
+    "objectID": "slides/slides.html#forks-let-you-contribute-without-write-access",
+    "href": "slides/slides.html#forks-let-you-contribute-without-write-access",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "Forks let you contribute without write access",
+    "text": "Forks let you contribute without write access\n\nA fork is your own GitHub copy of someone else’s repository\nYou only need this when you cannot push directly to the original repository\nYou clone your fork, make the change, push to your fork, and then open a pull request back to the original repository\nThis is the workflow we will use in the collaborative exercise"
+  },
+  {
+    "objectID": "slides/slides.html#where-to-go-next",
+    "href": "slides/slides.html#where-to-go-next",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "Where to go next",
+    "text": "Where to go next\n\nHappy Git with R\n\nGit, GitHub, and RStudio — the best starting point for R users.\n\nPro Git\n\nThe definitive Git reference, free online.\n\nSoftware Carpentry: Version Control with Git\n\nA self-paced hands-on lesson for researchers.\n\nOh Shit, Git!?\n\nPlain-English fixes for common mistakes.\n\nExcuse me, do you have a moment to talk about version control?\n\nBryan (2018) — the academic case for version control in research."
+  },
+  {
+    "objectID": "slides/slides.html#exercises",
+    "href": "slides/slides.html#exercises",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "Exercises",
+    "text": "Exercises\n\n\nCheck your setup\nYour first local repository\nPush to GitHub\nMake a change and push again\nAdd your name to a shared repository\n\n\n\ntinyurl.com/brc-git-github"
+  },
+  {
+    "objectID": "slides/slides.html#appendix-first-time-setup",
+    "href": "slides/slides.html#appendix-first-time-setup",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "Appendix: First-time setup",
+    "text": "Appendix: First-time setup"
+  },
+  {
+    "objectID": "slides/slides.html#git-config-three-lines-to-run-once",
+    "href": "slides/slides.html#git-config-three-lines-to-run-once",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "git config — three lines to run once",
+    "text": "git config — three lines to run once\ngit config --global user.name \"Your Name\"\ngit config --global user.email \"you@example.com\"\ngit config --global init.defaultBranch main\n\nuser.name / user.email\n\nYour identity on every commit\n\ninit.defaultBranch\n\nOptional hygiene: use main instead of the old master default when you create new repositories from the command line\n\n\nGitHub Desktop usually sets the important parts for you. These commands are mainly for command-line users who want Git configured explicitly."
+  },
+  {
+    "objectID": "slides/slides.html#where-does-.gitconfig-live",
+    "href": "slides/slides.html#where-does-.gitconfig-live",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "Where does .gitconfig live?",
+    "text": "Where does .gitconfig live?\n\n\n\n\n\n\n\n\nPlatform\nLocation\nHow to open\n\n\n\n\nMac\n~/.gitconfig\nopen ~/.gitconfig or any text editor\n\n\nWindows\nC:\\Users\\YourName\\.gitconfig\nNotepad, VS Code, or notepad $HOME\\.gitconfig in PowerShell\n\n\n\n\n\n\n\n\n\nNote\n\n\n.gitconfig is a hidden file. To show it: Mac — Cmd+Shift+. in Finder Windows — View → Show → Hidden items\n\n\n\nYou can edit it directly in a text editor, or use git config --global commands. Both do the same thing."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "",
+    "text": "A hands-on introduction to Git and GitHub for researchers — covering the core concepts, practical workflows from first commit to collaborative pull request, and habits and best practices."
+  },
+  {
+    "objectID": "index.html#event-details",
+    "href": "index.html#event-details",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "Event details",
+    "text": "Event details\n\n\n\nDate\nThursday 23 April 2026\n\n\nTime\n14:00–16:00\n\n\nRoom\nRobin Murray A & B, IoPPN, Denmark Hill\n\n\nPresenter\nDr Ewan Carr, King’s College London"
+  },
+  {
+    "objectID": "index.html#what-youll-learn",
+    "href": "index.html#what-youll-learn",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "What you’ll learn",
+    "text": "What you’ll learn\nHour 1 — Concepts and demonstration\n\nWhat Git is and why researchers use it\nThe core vocabulary: repositories, commits, staging, push, pull\nHow to track changes to your files and write useful commit messages\nHow Git and GitHub fit together\nA live demonstration of the full workflow\n\nHour 2 — Hands-on practice\n\nTurning an existing project folder into a Git repository\nMaking commits and viewing your history\nPushing your work to GitHub\nContributing to a shared repository via a pull request"
+  },
+  {
+    "objectID": "index.html#timetable",
+    "href": "index.html#timetable",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "Timetable",
+    "text": "Timetable\n\n\n\nTime\nSession\n\n\n\n\n13:30\nRegistration and coffee\n\n\n14:00\nWelcome\n\n\n14:05\nHour 1: Concepts and demonstration\n\n\n14:55\nBreak\n\n\n15:00\nHour 2: Hands-on exercises\n\n\n15:40\nGroup exercise: contributing to a shared repository\n\n\n16:00\nClose"
+  },
+  {
+    "objectID": "index.html#materials",
+    "href": "index.html#materials",
+    "title": "Git for people who’ve been meaning to learn Git (but haven’t yet)",
+    "section": "Materials",
+    "text": "Materials\nAll materials will be available on this site during and after the workshop.\n\nSetup instructions — install Git, GitHub Desktop, and create a GitHub account\nExercises — step-by-step instructions for Hour 2\nExample project — download link on the exercises page"
+  },
+  {
+    "objectID": "exercises.html",
+    "href": "exercises.html",
+    "title": "Exercises",
+    "section": "",
+    "text": "These exercises take you from zero to a working Git-and-GitHub setup on your own machine. Work through them in order. Each one builds on the last, but the collaborative exercise at the end is self-contained — even if you get stuck earlier, you can still join in.\nIf you get stuck at any point, raise your hand, and we’ll come and help."
+  },
+  {
+    "objectID": "exercises.html#before-you-start",
+    "href": "exercises.html#before-you-start",
+    "title": "Exercises",
+    "section": "Before you start",
+    "text": "Before you start\nMake sure you have:\n\nGit installed — open a terminal and run git --version. You should see a version number.\nA GitHub account — if not, create one at github.com\nGitHub Desktop installed (recommended for beginners) — desktop.github.com\nIf you’re following the command-line route: install the GitHub CLI (gh) as described on the setup page\nThe example project folder — download example.zip, unzip it somewhere you can find it (e.g. your Desktop). It contains a small R project: a dataset, three scripts, and a README.\n\n\n\n\n\n\n\nTipGitHub Desktop or the command line?\n\n\n\nBoth paths are shown throughout. Pick one and stick with it for the exercises — you don’t need to do both. GitHub Desktop is easier to start with; the command line gives you more power later.\n\n\n\n\n\n\n\n\nNoteHidden files\n\n\n\nYou may notice folders called .git or a file called .gitconfig mentioned during the session. These start with a dot, which means they’re hidden by default.\n\nMac: press Cmd+Shift+. in Finder to show hidden files\nWindows: File Explorer → View → Show → Hidden items\n\nYou don’t need to open these files — just know they exist."
+  },
+  {
+    "objectID": "exercises.html#ex0",
+    "href": "exercises.html#ex0",
+    "title": "Exercises",
+    "section": "Exercise 0 · Pre-flight check",
+    "text": "Exercise 0 · Pre-flight check\n~5 minutes · 15:00–15:05\nA quick check to make sure everything is ready before we dive in.\n\nGitHub DesktopCommand line\n\n\n\nOpen GitHub Desktop\nCheck you’re signed in: go to GitHub Desktop → Settings → Accounts (Mac) or File → Options → Accounts (Windows). You should see your GitHub username.\nIf you’re not signed in, click Sign in to GitHub.com and follow the prompts.\n\n\n\n\nOpen a terminal (Terminal on Mac, Git Bash on Windows)\nCheck Git is installed:\ngit --version\nYou should see something like git version 2.44.0.\nCheck you’re authenticated with GitHub:\ngh auth status\nIf you get gh: command not found, go back to the setup page and install the GitHub CLI first. If you see Logged in to github.com, you’re ready. If not, run:\ngh auth login\nand follow the prompts.\n\n\n\n\n\n\n\n\n\n\nImportantStuck on setup?\n\n\n\nIf Git isn’t installed, or GitHub Desktop won’t sign in, flag us now — it’s faster to fix this before the exercises than halfway through."
+  },
+  {
+    "objectID": "exercises.html#ex1",
+    "href": "exercises.html#ex1",
+    "title": "Exercises",
+    "section": "Exercise 1 · Your first repository",
+    "text": "Exercise 1 · Your first repository\n~15 minutes · 15:05–15:20\nYou’re going to turn the example project folder into a Git repository, make your first commit, make a change, and commit that too.\n\nStep 1: Create a repository\n\nGitHub DesktopCommand line\n\n\n\nIn GitHub Desktop, go to File → Add Local Repository\nClick Choose… and navigate to the unzipped example folder\nGitHub Desktop will say “This directory does not appear to be a Git repository.” — click create a repository\nLeave the settings as they are and click Create Repository\n\n\n\n\nIn your terminal, navigate to the example folder:\ncd ~/Desktop/example\n(adjust the path if you unzipped it somewhere else)\nInitialise a Git repository:\ngit init\n\n\n\n\n\n\n\n\n\n\nTipWhat just happened?\n\n\n\nGit created a hidden .git folder inside your project. That folder is the repository — it stores all the history. Your files haven’t changed at all.\n\n\n\n\nStep 2: Make your first commit\n\nGitHub DesktopCommand line\n\n\n\nYou should see all the project files listed as changes in the left panel\nIn the bottom-left, write a commit message: Initial commit\nClick Commit to main\n\n\n\ngit add .\ngit commit -m \"Initial commit\"\n\n\n\n✅ Checkpoint: You’ve made your first commit. The files are now tracked by Git.\n\n\nStep 3: Make a change and commit again\n\nGitHub DesktopCommand line\n\n\n\nOpen README.md in a text editor and add one line — anything you like (your name, a note about the project)\nSave the file\nGo back to GitHub Desktop — the change appears in the left panel\nWrite a commit message describing what you changed, e.g. Add my name to README\nClick Commit to main\n\n\n\n\nOpen README.md and add a line, then save\nStage and commit the change:\ngit add README.md\ngit commit -m \"Add my name to README\"\n\n\n\n\n\n\nStep 4: View the history\n\nGitHub DesktopCommand line\n\n\nClick the History tab at the top of the left panel. You should see two commits, each with its message and timestamp.\n\n\ngit log --oneline\nYou should see two commits listed, most recent first.\n\n\n\n✅ Checkpoint: Two commits in the history. You’ve got a working local repository.\n\n\n\n\n\n\nTipStretch task\n\n\n\n\n\n\nMake two more commits (change a different file each time)\nIn GitHub Desktop, click on a commit in the History tab to see exactly what changed line by line\nOn the command line: git diff HEAD~1 compares your current state to the previous commit"
+  },
+  {
+    "objectID": "exercises.html#ex2",
+    "href": "exercises.html#ex2",
+    "title": "Exercises",
+    "section": "Exercise 2 · Push to GitHub",
+    "text": "Exercise 2 · Push to GitHub\n~10 minutes · 15:20–15:30\nYour repository only exists on your computer right now. In this exercise you’ll put a copy on GitHub.\n\nStep 1: Create a new repository on GitHub\n\nGitHub DesktopCommand line\n\n\nSkip this step — GitHub Desktop will create the remote repository for you automatically in Step 2.\n\n\n\nGo to github.com and sign in\nClick the + icon (top right) → New repository\nName it admissions-example\nSet visibility to Private — the data folder exists locally on your machine, and while .gitignore prevents it from being pushed to GitHub, Private is safer while you’re learning\nDo not tick “Add a README”, “Add .gitignore”, or “Choose a licence” — your local repo already has all of this\nClick Create repository\n\n\n\n\n\n\nStep 2: Connect your local repo and push\n\nGitHub DesktopCommand line\n\n\n\nIn GitHub Desktop, click Publish repository (in the top bar)\nMake sure the name matches (admissions-example) and it’s set to Private\nClick Publish Repository\n\n\n\nCopy the two lines GitHub shows you under “…or push an existing repository from the command line”. They look like this:\ngit remote add origin https://github.com/YOUR-USERNAME/admissions-example.git\ngit push -u origin main\nRun them in your terminal (replacing YOUR-USERNAME with your GitHub username).\n\n\n\n\n\nStep 3: Check it worked\nGo to github.com/YOUR-USERNAME/admissions-example in your browser. You should see your files and commit history.\n✅ Checkpoint: Your project is on GitHub.\n\n\n\n\n\n\nNoteWhat about the data?\n\n\n\nNotice that data/ and outputs/ are not on GitHub — even though they’re in your project folder. That’s the .gitignore working. Open it to see what’s excluded.\n\n\n\n\n\n\n\n\nTipStretch task\n\n\n\n\n\n\nOpen .gitignore and add a new line: *.log\nSave the file, commit it (Add *.log to .gitignore), and push\nCheck that the new commit appears on GitHub"
+  },
+  {
+    "objectID": "exercises.html#ex3",
+    "href": "exercises.html#ex3",
+    "title": "Exercises",
+    "section": "Exercise 3 · The everyday loop",
+    "text": "Exercise 3 · The everyday loop\n~10 minutes · 15:30–15:40\nThis is the workflow you’ll use day-to-day: edit a file, commit the change, push to GitHub.\n\nStep 1: Make a change locally\nOpen any file in the example project and make a small edit — add a comment to a script, fix a typo in the README, or create a new file called NOTES.md.\n\n\nStep 2: Commit\n\nGitHub DesktopCommand line\n\n\n\nThe change appears in the left panel\nWrite a clear commit message — describe what you changed, not just “changes”\nClick Commit to main\n\n\n\ngit add .\ngit commit -m \"Your descriptive message here\"\n\n\n\n\n\nStep 3: Push\n\nGitHub DesktopCommand line\n\n\nClick Push origin in the top bar.\n\n\ngit push\n\n\n\n\n\nStep 4: Verify on GitHub\nRefresh your repository page on GitHub. The new commit should appear at the top of the commit history.\n✅ Checkpoint: Edit → commit → push. That’s the everyday loop.\n\n\n\n\n\n\nNotegit switch vs git checkout\n\n\n\nThese exercises use git switch, the modern syntax for working with branches (introduced in Git 2.23). Older tutorials and Stack Overflow answers often use git checkout for the same operations:\n\n\n\nModern\nOld\n\n\n\n\ngit switch -c branch-name\ngit checkout -b branch-name\n\n\ngit switch branch-name\ngit checkout branch-name\n\n\n\nBoth work — if you see git checkout elsewhere, that’s why.\n\n\n\n\n\n\n\n\nTipStretch task: try a branch\n\n\n\n\n\ngit switch -c my-experiment\nMake a commit on the branch, then switch back to main:\ngit switch main\nNotice that your change has “disappeared” from the files — it’s on the branch, not on main. Switch back to see it return:\ngit switch my-experiment\nIn GitHub Desktop: Branch → New Branch, make a commit, then switch back via the branch menu at the top."
+  },
+  {
+    "objectID": "exercises.html#collaborative-exercise-add-your-name",
+    "href": "exercises.html#collaborative-exercise-add-your-name",
+    "title": "Exercises",
+    "section": "Collaborative exercise · Add your name",
+    "text": "Collaborative exercise · Add your name\n~20 minutes · 15:40–16:00\nEveryone is going to contribute to a shared repository. This is exactly how open-source collaboration works.\nThe repo is at: github.com/ewancarr/brc-git-workshop-2026\nIt contains one file — names.md — and your job is to add your name to it.\n\n\n\n\n\n\nNoteWhy fork instead of clone?\n\n\n\nYou don’t have write access to the workshop repo, so you can’t push to it directly. Instead you’ll fork it — create your own copy — make your change there, and then open a pull request asking the presenter to merge it in.\n\n\n\nStep 1: Fork the repo\n\nGo to the repo URL above\nClick Fork (top right) → Create fork\nYou now have your own copy at github.com/YOUR-USERNAME/brc-git-workshop-2026\n\n\n\nStep 2: Clone your fork\n\nGitHub DesktopCommand line\n\n\n\nFile → Clone Repository\nFind brc-git-workshop-2026 in your repository list (it should appear under your account)\nChoose a local path and click Clone\n\n\n\ngit clone https://github.com/YOUR-USERNAME/brc-git-workshop-2026.git\ncd brc-git-workshop-2026\n\n\n\n\n\nStep 3: Add your name\nOpen names.md and add your name on a new line at the bottom:\n- Your Name\nSave the file.\n\n\nStep 4: Commit and push\n\nGitHub DesktopCommand line\n\n\n\nThe change appears in the left panel\nCommit message: Add [your name]\nClick Commit to main\nClick Push origin\n\n\n\ngit add names.md\ngit commit -m \"Add [your name]\"\ngit push\n\n\n\n\n\nStep 5: Open a pull request\n\nGo to your fork on GitHub (github.com/YOUR-USERNAME/brc-git-workshop-2026)\nGitHub will show a banner: “This branch is 1 commit ahead of ewancarr:main”\nClick Contribute → Open pull request\nThe title will be pre-filled — click Create pull request\n\n✅ Done! Watch the presenter’s screen — your PR will appear in the list, and when it’s merged, your name will be added to names.md live.\n\n\n\n\n\n\n\nTipCommon issues\n\n\n\n“I cloned the original repo, not my fork” Go back and clone from github.com/YOUR-USERNAME/... (your fork), not github.com/ewancarr/....\n“GitHub Desktop doesn’t show my fork” Click Refresh in the repository list, or paste the URL manually via File → Clone Repository → URL tab.\n“Authentication failed” when pushing Flag a helper — this usually means GitHub Desktop isn’t signed in, or the CLI needs gh auth login."
+  },
+  {
+    "objectID": "exercises.html#ex4",
+    "href": "exercises.html#ex4",
+    "title": "Exercises",
+    "section": "Exercise 4 · Branches (go further)",
+    "text": "Exercise 4 · Branches (go further)\nThis exercise is for people who want to go further. Work through it at your own pace after the collaborative exercise.\nBranches let you try something out without touching your working code. You create a branch, make changes there, and — when you’re happy — merge it back into main.\n\nStep 1: Create a branch\n\nGitHub DesktopCommand line\n\n\nGo to Branch → New Branch. Name it my-experiment and click Create Branch. GitHub Desktop will switch you to the new branch automatically.\n\n\ngit switch -c my-experiment\n\n\n\n\n\nStep 2: Make a change and commit\nMake any small edit to a file — add a comment to a script, add a line to README.md, anything.\n\nGitHub DesktopCommand line\n\n\nCommit the change as normal — write a message and click Commit to my-experiment.\n\n\ngit add .\ngit commit -m \"Experiment with a change\"\n\n\n\n\n\nStep 3: Switch back to main\n\nGitHub DesktopCommand line\n\n\nUse the branch menu at the top of the window to switch back to main.\n\n\ngit switch main\n\n\n\nNotice that your change has disappeared from the files. It’s safe on the branch — it just isn’t on main yet.\n\n\nStep 4: Merge the branch into main\n\nGitHub DesktopCommand line\n\n\nGo to Branch → Merge into Current Branch, select my-experiment, and click Merge.\n\n\ngit merge my-experiment\n\n\n\nYour change is now on main. Check the history — you’ll see the commit from the branch has landed there.\n✅ That’s the branch workflow: create → commit → switch back → merge. On a real project you’d do this whenever you want to try something without risking your working code.\n\n\n\n\n\n\nTipTidying up\n\n\n\n\n\nOnce a branch is merged you can delete it — it’s done its job.\ngit branch -d my-experiment\nIn GitHub Desktop: Branch → Delete Branch."
+  },
+  {
+    "objectID": "setup.html",
+    "href": "setup.html",
+    "title": "Setup instructions",
+    "section": "",
+    "text": "Please work through all five steps below before the workshop. Each one takes just a few minutes."
+  },
+  {
+    "objectID": "setup.html#install-git",
+    "href": "setup.html#install-git",
+    "title": "Setup instructions",
+    "section": "Step 1 · Install Git",
+    "text": "Step 1 · Install Git\n\nMacWindows\n\n\nGit is not installed by default on macOS. The easiest way to get it is to install the Xcode Command Line Tools:\n\nOpen Terminal (search for it in Spotlight with Cmd+Space)\nRun:\nxcode-select --install\nA dialogue will appear asking you to install the tools — click Install and wait for it to finish (a few minutes)\nOnce installed, verify it worked:\ngit --version\nYou should see a version number like git version 2.39.3.\n\n\n\n\n\n\n\nNoteAlternative: install via Homebrew\n\n\n\n\n\nHomebrew is a package manager for macOS that makes installing developer tools straightforward. If you already have it, run:\nbrew install git\nIf you don’t have Homebrew yet, install it first from brew.sh, then run the command above.\n\n\n\n\n\nOn a KCL laptop? Open the KCL Software Center and install both of these:\n\n\n Git (x64)\n\n\n GitHub Desktop\n\n\nInstalling both here means you can skip Step 3 below.\nOn a personal device?\n\nDownload Git for Windows from git-scm.com/download/win\nRun the installer. The default settings are fine — click through and accept them.\nThis installs both Git and Git Bash (a terminal for running Git commands on Windows).\n\nWhichever route you took, verify it worked: open Git Bash (search for it in the Start menu) and run:\ngit --version"
+  },
+  {
+    "objectID": "setup.html#github-account",
+    "href": "setup.html#github-account",
+    "title": "Setup instructions",
+    "section": "Step 2 · Create a GitHub account",
+    "text": "Step 2 · Create a GitHub account\nIf you don’t already have one, create a free account at github.com.\nUse your KCL email address — it’s useful for research-related repositories and may give you access to additional features via GitHub’s academic programme.\n\n\n\n\n\n\nNote\n\n\n\nGitHub accounts are free and personal. You can add other email addresses to your account later, and your repositories stay with you if you move institutions."
+  },
+  {
+    "objectID": "setup.html#github-desktop",
+    "href": "setup.html#github-desktop",
+    "title": "Setup instructions",
+    "section": "Step 3 · Install GitHub Desktop",
+    "text": "Step 3 · Install GitHub Desktop\nGitHub Desktop gives you a visual interface for Git — you can see your changes, write commit messages, and push to GitHub without using the command line.\n\nDownload from desktop.github.com and run the installer\nOpen GitHub Desktop and sign in with your GitHub account\n\n\n\n\n\n\n\nNoteCommand line users\n\n\n\n\n\nIf you’re comfortable in the terminal and prefer to use Git from the command line, that’s fine — both paths are covered in the exercises. If you plan to follow the command-line route in the exercises, install the GitHub CLI (gh) as well, because we’ll use it for GitHub authentication:\n\nMac: brew install gh\nWindows: download from cli.github.com\n\nThen run gh auth login to authenticate Git and GitHub on your machine. When prompted, you can choose either HTTPS or SSH for Git operations.\nIf you want to use SSH, GitHub has a step-by-step guide here: Generating a new SSH key and adding it to the ssh-agent."
+  },
+  {
+    "objectID": "setup.html#configure-git",
+    "href": "setup.html#configure-git",
+    "title": "Setup instructions",
+    "section": "Step 4 · Configure Git",
+    "text": "Step 4 · Configure Git\nThis step tells Git your name and email so they appear in your commits. You only need to do this once.\nOpen a terminal (Terminal on Mac, Git Bash on Windows) and run these three commands, replacing the name and email with your own:\ngit config --global user.name \"Your Name\"\ngit config --global user.email \"your.email@kcl.ac.uk\"\ngit config --global init.defaultBranch main\n\nMacWindows\n\n\ngit config --global core.autocrlf input\n\n\ngit config --global core.autocrlf true\n\n\n\n\n\n\n\n\n\nTipWhat does this do?\n\n\n\n\n\n\nuser.name and user.email — attached to every commit you make, so collaborators know who made each change\ninit.defaultBranch main — new repositories will use main as the default branch name (the modern convention)\ncore.autocrlf — handles line endings correctly between Mac and Windows (avoids spurious file changes)\n\nThese settings are stored in a file called .gitconfig in your home folder:\n\nMac/Linux: ~/.gitconfig\nWindows: C:\\Users\\YourName\\.gitconfig"
+  },
+  {
+    "objectID": "setup.html#survey",
+    "href": "setup.html#survey",
+    "title": "Setup instructions",
+    "section": "Step 5 · Complete the pre-workshop survey",
+    "text": "Step 5 · Complete the pre-workshop survey\nPlease fill in the short survey below so we can understand your background and tailor the session:\n→ Complete the survey\n(Takes about 2 minutes. Closes 22 April.)"
+  },
+  {
+    "objectID": "setup.html#all-done",
+    "href": "setup.html#all-done",
+    "title": "Setup instructions",
+    "section": "All done?",
+    "text": "All done?\nYou’re ready for the workshop. See you on Thursday 23 April at 14:00 in Robin Murray A & B."
+  }
+]
