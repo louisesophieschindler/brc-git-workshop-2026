@@ -336,27 +336,6 @@ These exercises use `git switch`, the modern syntax for working with branches (i
 Both work — if you see `git checkout` elsewhere, that's why.
 :::
 
-::: {.callout-tip collapse="true"}
-## Stretch task: try a branch
-
-```bash
-git switch -c my-experiment
-```
-
-Make a commit on the branch, then switch back to `main`:
-
-```bash
-git switch main
-```
-
-Notice that your change has "disappeared" from the files — it's on the branch, not on `main`. Switch back to see it return:
-
-```bash
-git switch my-experiment
-```
-
-In GitHub Desktop: **Branch → New Branch**, make a commit, then switch back via the branch menu at the top.
-:::
 
 ---
 
